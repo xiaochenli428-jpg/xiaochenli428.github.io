@@ -3,147 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>XCMG 备件采购到货管理系统 V1.0</title>
+    <title>XCMG 备件采购到货管理系统</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: 'Microsoft YaHei', 'PingFang SC', 'Segoe UI', system-ui, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1a4a5f 0%, #0b2b3f 100%);
             min-height: 100vh;
-            padding: 20px;
-        }
-        .version-badge {
-            position: fixed;
-            bottom: 15px;
-            left: 15px;
-            background: rgba(0,0,0,0.6);
-            backdrop-filter: blur(5px);
-            color: #fff;
-            padding: 6px 14px;
-            border-radius: 30px;
-            font-size: 0.7rem;
-            z-index: 999;
-        }
-        .login-page {
             display: flex;
             justify-content: center;
             align-items: center;
-            width: 100%;
-            min-height: 90vh;
+            padding: 20px;
         }
         .login-card {
-            background: rgba(255, 255, 255, 0.98);
-            backdrop-filter: blur(10px);
+            background: white;
             border-radius: 32px;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
             width: 100%;
-            max-width: 460px;
+            max-width: 440px;
             padding: 48px 40px;
             text-align: center;
         }
-        .xcmg-logo-login { margin-bottom: 24px; }
-        .logo-icon-login {
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(135deg, #1e6f5c 0%, #2c7a4d 100%);
-            border-radius: 24px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 16px;
-            box-shadow: 0 10px 25px rgba(30,111,92,0.3);
-        }
-        .logo-icon-login span { font-size: 48px; }
-        .logo-text-login { font-size: 28px; font-weight: 700; color: #1e6f5c; letter-spacing: 4px; }
-        .logo-sub-login { font-size: 11px; color: #64748b; margin-top: 6px; }
-        .login-title { font-size: 22px; font-weight: 600; color: #0b2b3f; margin: 20px 0 8px; }
+        .logo-icon { font-size: 48px; margin-bottom: 16px; }
+        .logo-text { font-size: 28px; font-weight: 700; color: #1e6f5c; letter-spacing: 2px; }
+        .logo-sub { font-size: 11px; color: #64748b; margin: 6px 0 24px; }
+        .login-title { font-size: 22px; font-weight: 600; color: #0b2b3f; margin-bottom: 6px; }
         .login-subtitle { font-size: 13px; color: #64748b; margin-bottom: 32px; padding-bottom: 16px; border-bottom: 1px solid #e2e8f0; }
         .login-error { background: #fee2e2; color: #991b1b; padding: 12px; border-radius: 12px; font-size: 0.8rem; margin-bottom: 20px; display: none; }
         .form-group { margin-bottom: 24px; text-align: left; }
         .form-group label { display: block; margin-bottom: 8px; font-weight: 500; font-size: 0.85rem; color: #1e4663; }
-        .form-group input { width: 100%; padding: 14px 18px; border: 1px solid #e2e8f0; border-radius: 16px; font-size: 1rem; background: #f8fafc; }
+        .form-group input { width: 100%; padding: 14px 16px; border: 1px solid #e2e8f0; border-radius: 16px; font-size: 1rem; background: #f8fafc; }
         .form-group input:focus { outline: none; border-color: #1e6f5c; box-shadow: 0 0 0 3px rgba(30,111,92,0.1); background: white; }
-        .btn-login { width: 100%; padding: 14px; background: linear-gradient(135deg, #1e6f5c 0%, #2c7a4d 100%); color: white; border: none; border-radius: 40px; font-size: 1rem; font-weight: 600; cursor: pointer; margin-top: 8px; }
-        .btn-login:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(30,111,92,0.4); }
-
-        .container { max-width: 1600px; margin: 0 auto; background: white; border-radius: 24px; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1); overflow: hidden; }
-        .header { background: linear-gradient(135deg, #0b2b3f 0%, #1a4a5f 100%); color: white; padding: 16px 28px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
-        .logo-area { display: flex; align-items: center; gap: 15px; }
-        .logo-icon-small { width: 48px; height: 48px; background: rgba(255,255,255,0.15); border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 28px; }
-        .title-area h1 { font-size: 1.4rem; margin: 0; }
-        .title-area p { font-size: 0.7rem; opacity: 0.8; margin: 4px 0 0; }
-        .user-info { display: flex; align-items: center; gap: 16px; background: rgba(255,255,255,0.12); padding: 6px 18px; border-radius: 40px; }
-        .user-name { font-weight: 500; font-size: 0.85rem; }
-        .user-role { font-size: 0.7rem; padding: 3px 12px; border-radius: 30px; background: #e6a017; color: #1e293b; }
-        .user-role.super-admin { background: #ef4444; color: white; }
-        .logout-btn { background: rgba(255,255,255,0.2); border: none; color: white; padding: 6px 14px; border-radius: 30px; cursor: pointer; font-size: 0.75rem; }
-
-        .module-tabs { display: flex; background: #f8fafc; border-bottom: 1px solid #e2e8f0; padding: 0 28px; gap: 8px; }
-        .module-tab { padding: 16px 28px; cursor: pointer; font-weight: 600; font-size: 0.9rem; border: none; background: none; color: #64748b; position: relative; }
-        .module-tab.active { color: #1e6f5c; }
-        .module-tab.active::after { content: ''; position: absolute; bottom: -1px; left: 0; right: 0; height: 3px; background: #1e6f5c; }
-        .module-content { display: none; }
-        .module-content.active { display: block; }
-
-        .toolbar { padding: 18px 28px; background: white; border-bottom: 1px solid #e2e8f0; display: flex; gap: 12px; flex-wrap: wrap; justify-content: space-between; }
-        .btn-group { display: flex; gap: 12px; flex-wrap: wrap; }
-        .btn { border: none; padding: 8px 20px; border-radius: 12px; font-weight: 500; font-size: 0.85rem; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
-        .btn-primary { background: #1e6f5c; color: white; }
-        .btn-success { background: #2c7a4d; color: white; }
-        .btn-info { background: #3b82f6; color: white; }
-        .btn-danger { background: #ef4444; color: white; }
-        .btn-secondary { background: #e2e8f0; color: #475569; }
-
-        .search-panel { padding: 20px 28px; background: #f8fafc; border-bottom: 1px solid #e2e8f0; }
-        .search-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px 16px; margin-bottom: 16px; }
-        .search-item { display: flex; flex-direction: column; gap: 4px; }
-        .search-item label { font-weight: 600; font-size: 0.75rem; color: #1e4663; }
-        .search-item input { padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 10px; font-size: 0.85rem; background: white; }
-        .search-actions { display: flex; gap: 12px; justify-content: flex-end; }
-
-        .result-stats { padding: 14px 28px; font-size: 0.85rem; background: white; display: flex; justify-content: space-between; border-bottom: 1px solid #e2e8f0; }
-        .table-wrapper { overflow-x: auto; padding: 0 20px 24px 20px; }
-        .data-table { width: 100%; border-collapse: collapse; font-size: 0.7rem; background: white; border-radius: 16px; overflow: hidden; }
-        .data-table th { background: #f0f4f9; padding: 14px 10px; border-bottom: 2px solid #dce5ec; color: #1e4663; }
-        .data-table td { padding: 10px 8px; border-bottom: 1px solid #edf2f7; text-align: center; }
-
-        .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); z-index: 1000; display: flex; justify-content: center; align-items: center; }
-        .modal.hidden { display: none; }
-        .modal-content { background: white; border-radius: 24px; width: 90%; max-width: 900px; max-height: 85vh; overflow-y: auto; padding: 28px; }
-        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid #e2e8f0; }
-        .close-modal { background: none; border: none; font-size: 28px; cursor: pointer; }
-
-        .form-group-m { margin-bottom: 16px; }
-        .form-group-m label { display: block; margin-bottom: 6px; font-weight: 500; }
-        .form-group-m input, .form-group-m select { width: 100%; padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 10px; }
-
-        .permission-group { border: 1px solid #e2e8f0; border-radius: 12px; padding: 14px; margin-bottom: 16px; background: #f8fafc; }
-        .permission-group h4 { margin: 0 0 12px 0; font-size: 0.85rem; }
-        .permission-item { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
-        
-        .progress-bar { width: 100%; background: #e2e8f0; border-radius: 20px; overflow: hidden; margin: 10px 20px; }
-        .progress-fill { width: 0%; height: 24px; background: #1e6f5c; transition: width 0.3s; color: white; text-align: center; font-size: 0.7rem; line-height: 24px; }
-        .toast { position: fixed; bottom: 30px; right: 30px; background: #2c7a4d; color: white; padding: 14px 28px; border-radius: 50px; z-index: 1100; animation: fadeOut 3s ease; }
-        @keyframes fadeOut { 0% { opacity: 1; } 70% { opacity: 1; } 100% { opacity: 0; visibility: hidden; } }
-        footer { padding: 16px 28px; font-size: 0.7rem; color: #94a3b8; text-align: center; border-top: 1px solid #e2edf2; background: #f8fafc; }
-
+        .btn-login { width: 100%; padding: 14px; background: #1e6f5c; color: white; border: none; border-radius: 40px; font-size: 1rem; font-weight: 600; cursor: pointer; margin-top: 8px; }
+        .btn-login:hover { background: #0f5a4a; transform: translateY(-2px); }
         .main-content { display: none; }
         .main-content.visible { display: block; }
+        .login-page { display: flex; }
         .login-page.hidden { display: none; }
-
-        @media (max-width: 768px) { body { padding: 10px; } .module-tab { padding: 12px 16px; font-size: 0.8rem; } }
     </style>
 </head>
 <body>
-<div class="version-badge">XCMG 备件采购到货管理系统 V1.0</div>
 
+<!-- 登录页面 -->
 <div id="loginPage" class="login-page">
     <div class="login-card">
-        <div class="xcmg-logo-login">
-            <div class="logo-icon-login"><span>🏗️</span></div>
-            <div class="logo-text-login">XCMG</div>
-            <div class="logo-sub-login">徐工集团 · 助您成功</div>
-        </div>
+        <div class="logo-icon">🏗️</div>
+        <div class="logo-text">XCMG</div>
+        <div class="logo-sub">徐工集团 · 助您成功</div>
         <div class="login-title">备件采购到货管理系统</div>
         <div class="login-subtitle">Sistema de Gerenciamento de Peças</div>
         <div id="loginError" class="login-error"></div>
@@ -159,160 +65,34 @@
     </div>
 </div>
 
+<!-- 主内容（简化版，登录后显示） -->
 <div id="mainContent" class="main-content">
-    <div class="container">
-        <div class="header">
-            <div class="logo-area">
-                <div class="logo-icon-small">🏗️</div>
-                <div class="title-area">
-                    <h1>XCMG 备件采购到货管理系统</h1>
-                    <p>徐工集团 · 全球工程机械领跑者 · 云端数据共享</p>
-                </div>
-            </div>
-            <div class="user-info">
-                <span class="user-name" id="userName"></span>
-                <span class="user-role" id="userRole"></span>
-                <button class="logout-btn" id="logoutBtn">退出</button>
-            </div>
-        </div>
+    <div style="background: white; border-radius: 24px; padding: 32px; max-width: 800px; margin: 0 auto;">
+        <h1 style="color: #1e6f5c;">✅ 登录成功！</h1>
+        <p style="margin-top: 16px; color: #475569;">欢迎使用 XCMG 备件采购到货管理系统</p>
+        <p style="margin-top: 8px; color: #64748b;">完整版功能正在加载中，请稍候...</p>
+        <button id="logoutBtn" style="margin-top: 24px; padding: 10px 24px; background: #ef4444; color: white; border: none; border-radius: 40px; cursor: pointer;">退出登录</button>
+    </div>
+</div>
 
-        <div class="module-tabs" id="moduleTabs">
-            <button class="module-tab active" data-module="order">📋 备件订单管理</button>
-            <button class="module-tab" data-module="shipment">🚢 发运进度跟踪</button>
-            <button class="module-tab" data-module="user" id="userModuleTab" style="display:none;">👥 账户管理</button>
-        </div>
-
-        <div id="orderModule" class="module-content active">
-            <div class="toolbar">
-                <div class="btn-group">
-                    <button class="btn btn-success" id="orderQuickUpdateBtn">⚡ 一键更新</button>
-                    <button class="btn btn-primary" id="orderExportBtn">📎 导出Excel</button>
-                </div>
-                <div class="btn-group">
-                    <button class="btn btn-info" id="orderTemplateBtn">📄 下载模板</button>
-                    <button class="btn btn-danger" id="orderClearBtn">🗑️ 清空数据</button>
-                </div>
-            </div>
-            <div class="search-panel">
-                <div class="search-grid">
-                    <div class="search-item"><label>📋 采购订单号SAP</label><input type="text" id="orderSearchPoSap" placeholder="模糊匹配"></div>
-                    <div class="search-item"><label>📋 采购订单号CRM</label><input type="text" id="orderSearchPoCrm" placeholder="模糊匹配"></div>
-                    <div class="search-item"><label>📋 采购计划单SAP</label><input type="text" id="orderSearchPlanPo" placeholder="模糊匹配"></div>
-                    <div class="search-item"><label>🔧 原始需求物料号</label><input type="text" id="orderSearchRawMaterial" placeholder="模糊匹配"></div>
-                    <div class="search-item"><label>📦 实际发运物料号</label><input type="text" id="orderSearchActualMaterial" placeholder="模糊匹配"></div>
-                    <div class="search-item"><label>🏭 供应商</label><input type="text" id="orderSearchSupplier" list="supplierList" placeholder="选择或输入"></div>
-                    <div class="search-item"><label>🏪 收货仓库</label><input type="text" id="orderSearchWarehouse" list="warehouseList" placeholder="选择或输入"></div>
-                    <div class="search-item"><label>🏛️ 申请部门</label><input type="text" id="orderSearchDept" list="deptList" placeholder="选择或输入"></div>
-                </div>
-                <div class="search-actions"><button class="btn btn-primary" id="orderSearchBtn">🔍 检索</button><button class="btn" id="orderResetBtn">⟳ 重置</button></div>
-            </div>
-            <div id="orderProgress" class="progress-bar" style="display:none;"><div class="progress-fill" id="orderProgressFill">0%</div></div>
-            <div class="result-stats"><span>📋 订单总数: <strong id="orderTotalSpan">0</strong></span><span>🔍 当前显示: <strong id="orderDisplaySpan">0</strong></span></div>
-            <div class="table-wrapper"><table class="data-table" id="orderTable"><thead id="orderHeader"></thead><tbody id="orderBody"><tr><td colspan="50">加载中...<\/td><\/tr><\/tbody><\/table><\/div>
-        <\/div>
-
-        <div id="shipmentModule" class="module-content">
-            <div class="toolbar">
-                <div class="btn-group"><button class="btn btn-success" id="shipmentQuickUpdateBtn">⚡ 一键更新</button><button class="btn btn-primary" id="shipmentExportBtn">📎 导出Excel</button><\/div>
-                <div class="btn-group"><button class="btn btn-info" id="shipmentTemplateBtn">📄 下载模板</button><button class="btn btn-danger" id="shipmentClearBtn">🗑️ 清空数据</button><\/div>
-            <\/div>
-            <div class="search-panel">
-                <div class="search-grid">
-                    <div class="search-item"><label>📌 物料号</label><input type="text" id="shipmentSearchMaterial" placeholder="模糊匹配"><\/div>
-                    <div class="search-item"><label>🚢 提单号</label><input type="text" id="shipmentSearchBL" placeholder="模糊匹配"><\/div>
-                    <div class="search-item"><label>🆔 SJ号</label><input type="text" id="shipmentSearchSJ" placeholder="模糊匹配"><\/div>
-                    <div class="search-item"><label>⛴️ 船期</label><input type="date" id="shipmentSearchShipDate"><\/div>
-                    <div class="search-item"><label>📅 预计到港</label><input type="date" id="shipmentSearchEta"><\/div>
-                    <div class="search-item"><label>📍 实际到厂</label><input type="date" id="shipmentSearchActual"><\/div>
-                <\/div>
-                <div class="search-actions"><button class="btn btn-primary" id="shipmentSearchBtn">🔍 检索</button><button class="btn" id="shipmentResetBtn">⟳ 重置</button><\/div>
-            <\/div>
-            <div id="shipmentProgress" class="progress-bar" style="display:none;"><div class="progress-fill" id="shipmentProgressFill">0%<\/div><\/div>
-            <div class="result-stats"><span>📋 发运总数: <strong id="shipmentTotalSpan">0</strong></span><span>🔍 当前显示: <strong id="shipmentDisplaySpan">0</strong></span><\/div>
-            <div class="table-wrapper"><table class="data-table" id="shipmentTable"><thead id="shipmentHeader"><\/thead><tbody id="shipmentBody"><tr><td colspan="30">加载中...<\/td><\/tr><\/tbody><\/table><\/div>
-        <\/div>
-
-        <div id="userModule" class="module-content">
-            <div class="toolbar">
-                <div class="btn-group"><button class="btn btn-success" id="addUserBtn">➕ 新增账户<\/button><\/div>
-                <div class="btn-group"><button class="btn btn-info" id="refreshUserBtn">⟳ 刷新列表<\/button><\/div>
-            <\/div>
-            <div class="search-panel">
-                <div class="search-grid">
-                    <div class="search-item"><label>👤 用户名<\/label><input type="text" id="userSearchName" placeholder="模糊匹配"><\/div>
-                    <div class="search-item"><label>🎭 角色<\/label><select id="userSearchRole"><option value="">全部<\/option><option value="super_admin">超级管理员<\/option><option value="admin">管理员<\/option><option value="viewer">访客<\/option><\/select><\/div>
-                <\/div>
-                <div class="search-actions"><button class="btn btn-primary" id="userSearchBtn">🔍 检索<\/button><button class="btn" id="userResetBtn">⟳ 重置<\/button><\/div>
-            <\/div>
-            <div class="result-stats"><span>👥 账户总数: <strong id="userTotalSpan">0<\/strong><\/span><span>🔍 当前显示: <strong id="userDisplaySpan">0<\/strong><\/span><\/div>
-            <div class="table-wrapper"><table class="data-table"><thead><tr><th>用户名</th><th>角色</th><th>语言</th><th>订单模块</th><th>发运模块</th><th>列显示</th><th>导入</th><th>删除</th><th>操作</th><\/tr><\/thead><tbody id="userBody"><\/tbody><\/table><\/div>
-        <\/div>
-        <footer>© 2025 XCMG · 备件采购到货管理系统 · 数据云端存储<\/footer>
-    <\/div>
-<\/div>
-
-<div id="userModal" class="modal hidden">
-    <div class="modal-content">
-        <div class="modal-header"><h3>编辑账户</h3><button class="close-modal" id="closeUserModal">&times;<\/button><\/div>
-        <div id="userModalError" class="login-error" style="display:none;"><\/div>
-        <div class="form-group-m"><label>用户名 *<\/label><input type="text" id="modalUsername"><\/div>
-        <div class="form-group-m"><label>密码 *<\/label><input type="password" id="modalPassword"><\/div>
-        <div class="form-group-m"><label>显示名称<\/label><input type="text" id="modalDisplayName"><\/div>
-        <div class="form-group-m"><label>语言界面<\/label><select id="modalLanguage"><option value="zh">中文<\/option><option value="pt">Português<\/option><\/select><\/div>
-        <div class="form-group-m"><label>角色<\/label><select id="modalRole"><option value="admin">管理员<\/option><option value="viewer">访客<\/option><\/select><\/div>
-        
-        <div class="permission-group"><h4>📋 备件订单模块权限</h4><div class="permission-item"><input type="checkbox" id="modalOrderView"> <label>查看备件订单模块</label><\/div><\/div>
-        <div class="permission-group"><h4>🚢 发运进度模块权限</h4><div class="permission-item"><input type="checkbox" id="modalShipmentView"> <label>查看发运进度模块</label><\/div><\/div>
-        
-        <div class="permission-group"><h4>🔧 系统权限</h4>
-            <div class="permission-item"><input type="checkbox" id="modalCanImport"> <label>允许导入数据</label><\/div>
-            <div class="permission-item"><input type="checkbox" id="modalCanDelete"> <label>允许删除数据</label><\/div>
-        <\/div>
-        <div class="modal-footer" style="display:flex; gap:12px; margin-top:20px;"><button class="btn btn-secondary" id="cancelUserBtn">取消</button><button class="btn btn-primary" id="saveUserBtn">保存</button><\/div>
-    <\/div>
-<\/div>
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"><\/script>
-<script src="https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js"><\/script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
     // Supabase 配置
     const SUPABASE_URL = 'https://mptyqhvbthiebmbhygbpxb.supabase.co';
     const SUPABASE_KEY = 'sb_publishable_OquFgVgmkDY0p9ImpD7BcQ_uwylKhmM';
     const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-    // 全局变量
-    var currentUser = null;
-    var orderData = [];
-    var shipmentData = [];
-    var userAccounts = {};
-
-    var orderFields = [
-        "序号", "检索码", "需求单号", "可用状态", "停用原因", "保留", "辅助列", "申请人", "收货仓库", "订单类型", "申请部门",
-        "采购单号SAP", "采购订单号CRM", "采购计划单SAP", "供应商", "主机厂代码", "发运方式", "主机型号", "原始需求物料号",
-        "订单物料号", "实际发运物料号", "单价", "价格", "已发运货值", "在途货值", "未发货值", "备齐待发货值", "物料描述",
-        "葡描", "NCM", "订单总数量", "已发货数量", "剩余数量", "在途", "合计在途", "订单下发日期", "订单下发日期46单生成日期",
-        "主机厂", "ETA日期", "已装箱", "备齐待发", "未备齐", "已到货", "预计交期", "发运时间", "预计到货时间", "SJ号"
-    ];
-
-    var shipmentFields = [
-        "合同号", "提单号", "发运日期", "船期", "预计到港日期", "计划到货日期", "订单类型", "主机型号",
-        "实际发运物料号", "物料号", "物料描述", "葡描", "数量", "NCM", "出厂单价", "出厂总价",
-        "总净重", "总毛重", "单件净重", "单件毛重", "库位", "订单号", "SJ号", "申请部门", "在途", "实际到厂时间"
-    ];
-
-    function escapeHtml(str) { if (!str) return ''; return String(str).replace(/[&<>]/g, function(m) { return m === '&' ? '&amp;' : (m === '<' ? '&lt;' : '&gt;'); }); }
-    
-    function showToast(msg, isErr) { 
-        var toast = document.createElement('div'); 
-        toast.className = 'toast'; 
-        toast.style.background = isErr ? '#c72a2a' : '#2c7a4d'; 
-        toast.innerText = msg; 
-        document.body.appendChild(toast); 
-        setTimeout(function() { if(toast) toast.remove(); }, 3000); 
-    }
-
-    // API 函数
-    async function apiLogin(username, password) {
+    async function login() {
+        var username = document.getElementById('loginUsername').value.trim();
+        var password = document.getElementById('loginPassword').value;
+        var errorDiv = document.getElementById('loginError');
+        
+        if (!username || !password) {
+            errorDiv.innerText = '请输入用户名和密码 / Digite usuário e senha';
+            errorDiv.style.display = 'block';
+            return;
+        }
+        
         try {
             const { data, error } = await supabase
                 .from('users')
@@ -320,453 +100,49 @@
                 .eq('username', username)
                 .eq('password', password)
                 .maybeSingle();
-            if (error) { console.error('Login error:', error); return { success: false, message: error.message }; }
-            if (data) return { success: true, user: data };
-            return { success: false, message: '用户名或密码错误' };
-        } catch(e) { return { success: false, message: e.message }; }
-    }
-
-    async function apiGetUsers() {
-        try {
-            const { data, error } = await supabase.from('users').select('*');
-            if (error) return {};
-            var obj = {};
-            if (data) data.forEach(function(u) { obj[u.username] = u; });
-            return obj;
-        } catch(e) { return {}; }
-    }
-
-    async function apiSaveUser(username, userData) {
-        try {
-            const { error } = await supabase.from('users').upsert({ username: username, ...userData });
-            return { success: !error };
-        } catch(e) { return { success: false }; }
-    }
-
-    async function apiSaveUsersBatch(usersObj) {
-        var usersList = [];
-        for (var u in usersObj) { usersList.push({ username: u, ...usersObj[u] }); }
-        if (usersList.length === 0) return;
-        try {
-            const { error } = await supabase.from('users').upsert(usersList);
-            return { success: !error };
-        } catch(e) { return { success: false }; }
-    }
-
-    async function apiGetOrders() {
-        try {
-            const { data, error } = await supabase.from('orders').select('data').eq('id', 1).maybeSingle();
-            if (error) return [];
-            return data?.data || [];
-        } catch(e) { return []; }
-    }
-
-    async function apiSaveOrders(ordersData) {
-        try {
-            const { error } = await supabase.from('orders').upsert({ id: 1, data: ordersData });
-            return { success: !error };
-        } catch(e) { return { success: false }; }
-    }
-
-    async function apiGetShipments() {
-        try {
-            const { data, error } = await supabase.from('shipments').select('data').eq('id', 1).maybeSingle();
-            if (error) return [];
-            return data?.data || [];
-        } catch(e) { return []; }
-    }
-
-    async function apiSaveShipments(shipmentsData) {
-        try {
-            const { error } = await supabase.from('shipments').upsert({ id: 1, data: shipmentsData });
-            return { success: !error };
-        } catch(e) { return { success: false }; }
-    }
-
-    // 渲染函数
-    function renderOrderTable() {
-        var tbody = document.getElementById('orderBody');
-        document.getElementById('orderTotalSpan').innerText = orderData.length;
-        document.getElementById('orderDisplaySpan').innerText = orderData.length;
-        if (orderData.length === 0) { tbody.innerHTML = '<tr><td colspan="50">暂无数据<\/td><\/tr>'; return; }
-        var html = '';
-        for (var i = 0; i < Math.min(orderData.length, 500); i++) {
-            var row = orderData[i];
-            html += '<tr>';
-            for (var j = 0; j < Math.min(orderFields.length, row.length); j++) {
-                var val = row[j] || '';
-                var display = escapeHtml(String(val));
-                if (display.length > 30) display = display.substring(0,30)+'...';
-                html += '<td title="'+escapeHtml(String(val))+'">'+display+'<\/td>';
+            
+            if (error) {
+                errorDiv.innerText = '数据库连接错误: ' + error.message;
+                errorDiv.style.display = 'block';
+                return;
             }
-            html += '<td><span style="color:#94a3b8;">只读<\/span><\/td><\/tr>';
-        }
-        tbody.innerHTML = html;
-    }
-
-    function renderShipmentTable() {
-        var tbody = document.getElementById('shipmentBody');
-        document.getElementById('shipmentTotalSpan').innerText = shipmentData.length;
-        document.getElementById('shipmentDisplaySpan').innerText = shipmentData.length;
-        if (shipmentData.length === 0) { tbody.innerHTML = '<tr><td colspan="30">暂无数据<\/td><\/tr>'; return; }
-        var html = '';
-        for (var i = 0; i < Math.min(shipmentData.length, 500); i++) {
-            var row = shipmentData[i];
-            html += '<tr>';
-            for (var j = 0; j < Math.min(shipmentFields.length, row.length); j++) {
-                var val = row[j] || '';
-                var display = escapeHtml(String(val));
-                if (display.length > 30) display = display.substring(0,30)+'...';
-                html += '<td title="'+escapeHtml(String(val))+'">'+display+'<\/td>';
+            
+            if (data) {
+                // 登录成功
+                sessionStorage.setItem('currentUser', JSON.stringify(data));
+                document.getElementById('loginPage').classList.add('hidden');
+                document.getElementById('mainContent').classList.add('visible');
+            } else {
+                errorDiv.innerText = '用户名或密码错误 / Usuário ou senha incorretos';
+                errorDiv.style.display = 'block';
             }
-            html += '<td><span style="color:#94a3b8;">只读<\/span><\/td><\/tr>';
-        }
-        tbody.innerHTML = html;
-    }
-
-    function renderUserTable() {
-        var tbody = document.getElementById('userBody');
-        var count = 0;
-        for (var u in userAccounts) { if (u !== 'lixiaochen') count++; }
-        document.getElementById('userTotalSpan').innerText = count;
-        document.getElementById('userDisplaySpan').innerText = count;
-        var html = '';
-        for (var u in userAccounts) {
-            if (u === 'lixiaochen') continue;
-            var user = userAccounts[u];
-            var roleText = user.role === 'super_admin' ? '超级管理员' : (user.role === 'admin' ? '管理员' : '访客');
-            var langText = user.language === 'pt' ? 'Português' : '中文';
-            html += '<tr>';
-            html += '<td>'+escapeHtml(u)+'<\/td>';
-            html += '<td>'+roleText+'<\/td>';
-            html += '<td>'+langText+'<\/td>';
-            html += '<td>'+(user.permissions?.orderView ? '✅' : '❌')+'<\/td>';
-            html += '<td>'+(user.permissions?.shipmentView ? '✅' : '❌')+'<\/td>';
-            html += '<td>'+(user.permissions?.canImport ? '✅' : '❌')+'<\/td>';
-            html += '<td>'+(user.permissions?.canDelete ? '✅' : '❌')+'<\/td>';
-            html += '<td><button class="btn btn-warning" onclick="editUser(\''+escapeHtml(u)+'\')">编辑</button> <button class="btn btn-danger" onclick="deleteUser(\''+escapeHtml(u)+'\')">删除</button><\/td>';
-            html += '<\/tr>';
-        }
-        tbody.innerHTML = html;
-    }
-
-    function editUser(username) {
-        var user = userAccounts[username];
-        if (!user) return;
-        document.getElementById('modalUsername').value = username;
-        document.getElementById('modalUsername').disabled = true;
-        document.getElementById('modalPassword').value = '';
-        document.getElementById('modalDisplayName').value = user.name || '';
-        document.getElementById('modalLanguage').value = user.language || 'zh';
-        document.getElementById('modalRole').value = user.role;
-        document.getElementById('modalOrderView').checked = user.permissions?.orderView || false;
-        document.getElementById('modalShipmentView').checked = user.permissions?.shipmentView || false;
-        document.getElementById('modalCanImport').checked = user.permissions?.canImport || false;
-        document.getElementById('modalCanDelete').checked = user.permissions?.canDelete || false;
-        document.getElementById('userModal').classList.remove('hidden');
-    }
-
-    async function deleteUser(username) {
-        if (username === 'lixiaochen') { alert('不能删除超级管理员'); return; }
-        if (confirm('删除账户 "' + username + '"？')) {
-            delete userAccounts[username];
-            await apiSaveUsersBatch(userAccounts);
-            renderUserTable();
-            showToast('已删除');
+        } catch(e) {
+            errorDiv.innerText = '连接失败: ' + e.message;
+            errorDiv.style.display = 'block';
         }
     }
-
-    function addUser() {
-        document.getElementById('modalUsername').value = '';
-        document.getElementById('modalUsername').disabled = false;
-        document.getElementById('modalPassword').value = '';
-        document.getElementById('modalDisplayName').value = '';
-        document.getElementById('modalLanguage').value = 'zh';
-        document.getElementById('modalRole').value = 'viewer';
-        document.getElementById('modalOrderView').checked = true;
-        document.getElementById('modalShipmentView').checked = true;
-        document.getElementById('modalCanImport').checked = false;
-        document.getElementById('modalCanDelete').checked = false;
-        document.getElementById('userModal').classList.remove('hidden');
-    }
-
-    async function saveUser() {
-        var username = document.getElementById('modalUsername').value.trim();
-        var password = document.getElementById('modalPassword').value;
-        var displayName = document.getElementById('modalDisplayName').value.trim();
-        var language = document.getElementById('modalLanguage').value;
-        var role = document.getElementById('modalRole').value;
-        var orderView = document.getElementById('modalOrderView').checked;
-        var shipmentView = document.getElementById('modalShipmentView').checked;
-        var canImport = document.getElementById('modalCanImport').checked;
-        var canDelete = document.getElementById('modalCanDelete').checked;
-        var errorDiv = document.getElementById('userModalError');
-        if (!username) { errorDiv.innerText = '请输入用户名'; errorDiv.style.display='block'; return; }
-        var isEdit = document.getElementById('modalUsername').disabled;
-        if (!isEdit && userAccounts[username]) { errorDiv.innerText = '用户名已存在'; errorDiv.style.display='block'; return; }
-        if (!isEdit && !password) { errorDiv.innerText = '请输入密码'; errorDiv.style.display='block'; return; }
-        userAccounts[username] = {
-            password: password || userAccounts[username]?.password,
-            role: role,
-            name: displayName || username,
-            language: language,
-            permissions: { orderView: orderView, shipmentView: shipmentView, canImport: canImport, canDelete: canDelete }
-        };
-        await apiSaveUsersBatch(userAccounts);
-        document.getElementById('userModal').classList.add('hidden');
-        renderUserTable();
-        showToast('保存成功');
-    }
-
-    async function importOrderExcel(file) {
-        if (!currentUser?.permissions?.canImport) { alert('权限不足'); return; }
-        var reader = new FileReader();
-        reader.onload = async function(e) {
-            var data = new Uint8Array(e.target.result);
-            var workbook = XLSX.read(data, { type: 'array' });
-            var rows = XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]], { header: 1, defval: "" });
-            if (!rows || rows.length < 2) { alert('无数据'); return; }
-            var imported = [];
-            for (var i = 1; i < rows.length; i++) {
-                var row = rows[i];
-                while (row.length < 47) row.push('');
-                var isEmpty = true;
-                for (var j=0;j<row.length;j++) { if (row[j] && String(row[j]).trim() !== '') { isEmpty=false; break; } }
-                if (!isEmpty) {
-                    var processed = [];
-                    for (var j=0;j<47;j++) {
-                        var cell = row[j] || '';
-                        if (cell instanceof Date) cell = cell.toISOString().split('T')[0];
-                        processed.push(String(cell));
-                    }
-                    imported.push(processed);
-                }
-            }
-            if (imported.length === 0) { alert('无有效数据'); return; }
-            orderData = imported;
-            await apiSaveOrders(orderData);
-            renderOrderTable();
-            showToast('导入成功！共 ' + orderData.length + ' 条记录');
-            extractOptions();
-        };
-        reader.readAsArrayBuffer(file);
-    }
-
-    async function importShipmentExcel(file) {
-        if (!currentUser?.permissions?.canImport) { alert('权限不足'); return; }
-        var reader = new FileReader();
-        reader.onload = async function(e) {
-            var data = new Uint8Array(e.target.result);
-            var workbook = XLSX.read(data, { type: 'array' });
-            var rows = XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]], { header: 1, defval: "" });
-            if (!rows || rows.length < 2) { alert('无数据'); return; }
-            var imported = [];
-            for (var i = 1; i < rows.length; i++) {
-                var row = rows[i];
-                while (row.length < 26) row.push('');
-                var isEmpty = true;
-                for (var j=0;j<row.length;j++) { if (row[j] && String(row[j]).trim() !== '') { isEmpty=false; break; } }
-                if (!isEmpty) {
-                    var processed = [];
-                    for (var j=0;j<26;j++) {
-                        var cell = row[j] || '';
-                        if (cell instanceof Date) cell = cell.toISOString().split('T')[0];
-                        processed.push(String(cell));
-                    }
-                    imported.push(processed);
-                }
-            }
-            if (imported.length === 0) { alert('无有效数据'); return; }
-            shipmentData = imported;
-            await apiSaveShipments(shipmentData);
-            renderShipmentTable();
-            showToast('导入成功！共 ' + shipmentData.length + ' 条记录');
-        };
-        reader.readAsArrayBuffer(file);
-    }
-
-    function quickUpdateOrder() { if (!currentUser?.permissions?.canImport) { alert('权限不足'); return; } var input = document.createElement('input'); input.type = 'file'; input.accept = '.xlsx,.xls'; input.onchange = function(e) { if(e.target.files[0]) importOrderExcel(e.target.files[0]); }; input.click(); }
-    function quickUpdateShipment() { if (!currentUser?.permissions?.canImport) { alert('权限不足'); return; } var input = document.createElement('input'); input.type = 'file'; input.accept = '.xlsx,.xls'; input.onchange = function(e) { if(e.target.files[0]) importShipmentExcel(e.target.files[0]); }; input.click(); }
-    function exportOrderExcel() { if (orderData.length === 0) { alert('无数据'); return; } var exportData = [orderFields]; for (var i=0;i<orderData.length;i++) exportData.push(orderData[i]); var ws = XLSX.utils.aoa_to_sheet(exportData); var wb = XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb, ws, '备件订单'); XLSX.writeFile(wb, '备件订单.xlsx'); showToast('导出成功'); }
-    function exportShipmentExcel() { if (shipmentData.length === 0) { alert('无数据'); return; } var exportData = [shipmentFields]; for (var i=0;i<shipmentData.length;i++) exportData.push(shipmentData[i]); var ws = XLSX.utils.aoa_to_sheet(exportData); var wb = XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb, ws, '发运进度'); XLSX.writeFile(wb, '发运进度.xlsx'); showToast('导出成功'); }
-    function downloadOrderTemplate() { var template = [orderFields]; var sample = new Array(47).fill(''); sample[11]='示例SAP'; template.push(sample); var ws = XLSX.utils.aoa_to_sheet(template); var wb = XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb, ws, '模板'); XLSX.writeFile(wb, '备件订单模板.xlsx'); }
-    function downloadShipmentTemplate() { var template = [shipmentFields]; var sample = new Array(26).fill(''); sample[0]='示例合同号'; template.push(sample); var ws = XLSX.utils.aoa_to_sheet(template); var wb = XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb, ws, '模板'); XLSX.writeFile(wb, '发运进度模板.xlsx'); }
-    async function clearOrderData() { if (confirm('清空所有订单数据？')) { orderData = []; await apiSaveOrders(orderData); renderOrderTable(); showToast('已清空'); } }
-    async function clearShipmentData() { if (confirm('清空所有发运数据？')) { shipmentData = []; await apiSaveShipments(shipmentData); renderShipmentTable(); showToast('已清空'); } }
-
-    function getFilteredOrderData() {
-        var poSap = document.getElementById('orderSearchPoSap').value.trim();
-        var result = [];
-        for (var i = 0; i < orderData.length; i++) {
-            if (poSap && !(orderData[i][11] && orderData[i][11].includes(poSap))) continue;
-            result.push(orderData[i]);
-        }
-        return result;
-    }
-
-    function performOrderSearch() { 
-        var filtered = getFilteredOrderData();
-        var tbody = document.getElementById('orderBody');
-        if (filtered.length === 0) { tbody.innerHTML = '<tr><td colspan="50">暂无数据<\/td><\/tr>'; return; }
-        var html = '';
-        for (var i = 0; i < Math.min(filtered.length, 500); i++) {
-            var row = filtered[i];
-            html += '<tr>';
-            for (var j = 0; j < Math.min(orderFields.length, row.length); j++) {
-                var val = row[j] || '';
-                var display = escapeHtml(String(val));
-                if (display.length > 30) display = display.substring(0,30)+'...';
-                html += '<td>'+display+'<\/td>';
-            }
-            html += '<td><span style="color:#94a3b8;">只读<\/span><\/td><\/tr>';
-        }
-        tbody.innerHTML = html;
-    }
-    function resetOrderFilters() { document.getElementById('orderSearchPoSap').value = ''; renderOrderTable(); }
-
-    function performShipmentSearch() { var material = document.getElementById('shipmentSearchMaterial').value.trim(); var result = []; for (var i = 0; i < shipmentData.length; i++) { if (material && !(shipmentData[i][8] && shipmentData[i][8].includes(material))) continue; result.push(shipmentData[i]); } var tbody = document.getElementById('shipmentBody'); if (result.length === 0) { tbody.innerHTML = '<tr><td colspan="30">暂无数据<\/td><\/tr>'; return; } var html = ''; for (var i = 0; i < Math.min(result.length, 500); i++) { var row = result[i]; html += '<td>'; for (var j = 0; j < Math.min(shipmentFields.length, row.length); j++) { var val = row[j] || ''; var display = escapeHtml(String(val)); if (display.length > 30) display = display.substring(0,30)+'...'; html += '<td>'+display+'<\/td>'; } html += '<td><span style="color:#94a3b8;">只读<\/span><\/td><\/tr>'; } tbody.innerHTML = html; }
-    function resetShipmentFilters() { document.getElementById('shipmentSearchMaterial').value = ''; renderShipmentTable(); }
-
-    async function extractOptions() {
-        var suppliers = [], warehouses = [], depts = [];
-        for (var i = 0; i < orderData.length; i++) {
-            if (orderData[i][14] && suppliers.indexOf(orderData[i][14]) === -1) suppliers.push(orderData[i][14]);
-            if (orderData[i][8] && warehouses.indexOf(orderData[i][8]) === -1) warehouses.push(orderData[i][8]);
-            if (orderData[i][10] && depts.indexOf(orderData[i][10]) === -1) depts.push(orderData[i][10]);
-        }
-        var oldSupplier = document.getElementById('supplierList');
-        var oldWarehouse = document.getElementById('warehouseList');
-        var oldDept = document.getElementById('deptList');
-        if (oldSupplier) oldSupplier.remove();
-        if (oldWarehouse) oldWarehouse.remove();
-        if (oldDept) oldDept.remove();
-        var supplierDatalist = '<datalist id="supplierList">' + suppliers.map(function(s) { return '<option value="' + escapeHtml(s) + '">'; }).join('') + '</datalist>';
-        var warehouseDatalist = '<datalist id="warehouseList">' + warehouses.map(function(w) { return '<option value="' + escapeHtml(w) + '">'; }).join('') + '</datalist>';
-        var deptDatalist = '<datalist id="deptList">' + depts.map(function(d) { return '<option value="' + escapeHtml(d) + '">'; }).join('') + '</datalist>';
-        document.body.insertAdjacentHTML('beforeend', supplierDatalist);
-        document.body.insertAdjacentHTML('beforeend', warehouseDatalist);
-        document.body.insertAdjacentHTML('beforeend', deptDatalist);
-        document.getElementById('orderSearchSupplier').setAttribute('list', 'supplierList');
-        document.getElementById('orderSearchWarehouse').setAttribute('list', 'warehouseList');
-        document.getElementById('orderSearchDept').setAttribute('list', 'deptList');
-    }
-
-    function switchModule(moduleName) {
-        var tabs = document.querySelectorAll('.module-tab');
-        for (var i = 0; i < tabs.length; i++) {
-            if (tabs[i].getAttribute('data-module') === moduleName) tabs[i].classList.add('active');
-            else tabs[i].classList.remove('active');
-        }
-        document.getElementById('orderModule').classList.remove('active');
-        document.getElementById('shipmentModule').classList.remove('active');
-        document.getElementById('userModule').classList.remove('active');
-        if (moduleName === 'order') { document.getElementById('orderModule').classList.add('active'); renderOrderTable(); }
-        else if (moduleName === 'shipment') { document.getElementById('shipmentModule').classList.add('active'); renderShipmentTable(); }
-        else if (moduleName === 'user') { document.getElementById('userModule').classList.add('active'); renderUserTable(); }
-    }
-
-    function applyUIPermissions() {
-        var isSuperAdmin = currentUser && currentUser.role === 'super_admin';
-        var userTab = document.getElementById('userModuleTab');
-        if (isSuperAdmin) userTab.style.display = 'inline-block';
-        else userTab.style.display = 'none';
-        var canImport = currentUser && currentUser.permissions && currentUser.permissions.canImport;
-        var canDelete = currentUser && currentUser.permissions && currentUser.permissions.canDelete;
-        document.getElementById('orderQuickUpdateBtn').style.display = canImport ? 'inline-block' : 'none';
-        document.getElementById('shipmentQuickUpdateBtn').style.display = canImport ? 'inline-block' : 'none';
-        document.getElementById('orderClearBtn').style.display = canDelete ? 'inline-block' : 'none';
-        document.getElementById('shipmentClearBtn').style.display = canDelete ? 'inline-block' : 'none';
-        document.getElementById('userName').innerText = currentUser.name || currentUser.username;
-        var roleSpan = document.getElementById('userRole');
-        if (currentUser.role === 'super_admin') { roleSpan.innerText = '超级管理员'; roleSpan.className = 'user-role super-admin'; }
-        else if (currentUser.role === 'admin') { roleSpan.innerText = '管理员'; roleSpan.className = 'user-role admin'; }
-        else { roleSpan.innerText = '访客'; roleSpan.className = 'user-role viewer'; }
-    }
-
-    async function login() {
-        var username = document.getElementById('loginUsername').value.trim();
-        var password = document.getElementById('loginPassword').value;
-        var errorDiv = document.getElementById('loginError');
-        if (!username || !password) { errorDiv.innerText = '请输入用户名和密码'; errorDiv.style.display='block'; return; }
-        var result = await apiLogin(username, password);
-        if (result.success) {
-            currentUser = result.user;
-            sessionStorage.setItem('currentUser', JSON.stringify(currentUser));
-            orderData = await apiGetOrders();
-            shipmentData = await apiGetShipments();
-            userAccounts = await apiGetUsers();
-            document.getElementById('loginPage').classList.add('hidden');
-            document.getElementById('mainContent').classList.add('visible');
-            applyUIPermissions();
-            renderOrderTable();
-            renderShipmentTable();
-            renderUserTable();
-            extractOptions();
-            showToast('欢迎回来，' + currentUser.name);
-        } else { errorDiv.innerText = result.message; errorDiv.style.display='block'; }
-    }
-
+    
     function logout() {
-        currentUser = null;
         sessionStorage.removeItem('currentUser');
         document.getElementById('mainContent').classList.remove('visible');
         document.getElementById('loginPage').classList.remove('hidden');
         document.getElementById('loginUsername').value = '';
         document.getElementById('loginPassword').value = '';
+        document.getElementById('loginError').style.display = 'none';
     }
-
-    async function checkSavedLogin() {
+    
+    function checkSavedLogin() {
         var saved = sessionStorage.getItem('currentUser');
         if (saved) {
-            try {
-                var u = JSON.parse(saved);
-                var users = await apiGetUsers();
-                if (users[u.username]) {
-                    currentUser = u;
-                    orderData = await apiGetOrders();
-                    shipmentData = await apiGetShipments();
-                    userAccounts = users;
-                    document.getElementById('loginPage').classList.add('hidden');
-                    document.getElementById('mainContent').classList.add('visible');
-                    applyUIPermissions();
-                    renderOrderTable();
-                    renderShipmentTable();
-                    renderUserTable();
-                    extractOptions();
-                    return;
-                }
-            } catch(e) { console.error(e); }
+            document.getElementById('loginPage').classList.add('hidden');
+            document.getElementById('mainContent').classList.add('visible');
         }
-        document.getElementById('loginPage').classList.remove('hidden');
     }
-
-    // 事件绑定
+    
     document.getElementById('loginBtn').onclick = login;
     document.getElementById('logoutBtn').onclick = logout;
-    var tabs = document.querySelectorAll('.module-tab');
-    for (var i = 0; i < tabs.length; i++) { tabs[i].onclick = function() { switchModule(this.getAttribute('data-module')); }; }
-    document.getElementById('orderSearchBtn').onclick = performOrderSearch;
-    document.getElementById('orderResetBtn').onclick = resetOrderFilters;
-    document.getElementById('orderQuickUpdateBtn').onclick = quickUpdateOrder;
-    document.getElementById('orderExportBtn').onclick = exportOrderExcel;
-    document.getElementById('orderTemplateBtn').onclick = downloadOrderTemplate;
-    document.getElementById('orderClearBtn').onclick = clearOrderData;
-    document.getElementById('shipmentSearchBtn').onclick = performShipmentSearch;
-    document.getElementById('shipmentResetBtn').onclick = resetShipmentFilters;
-    document.getElementById('shipmentQuickUpdateBtn').onclick = quickUpdateShipment;
-    document.getElementById('shipmentExportBtn').onclick = exportShipmentExcel;
-    document.getElementById('shipmentTemplateBtn').onclick = downloadShipmentTemplate;
-    document.getElementById('shipmentClearBtn').onclick = clearShipmentData;
-    document.getElementById('addUserBtn').onclick = addUser;
-    document.getElementById('refreshUserBtn').onclick = renderUserTable;
-    document.getElementById('userSearchBtn').onclick = renderUserTable;
-    document.getElementById('userResetBtn').onclick = function() { renderUserTable(); };
-    document.getElementById('closeUserModal').onclick = function() { document.getElementById('userModal').classList.add('hidden'); };
-    document.getElementById('cancelUserBtn').onclick = function() { document.getElementById('userModal').classList.add('hidden'); };
-    document.getElementById('saveUserBtn').onclick = saveUser;
-    window.editUser = editUser;
-    window.deleteUser = deleteUser;
-
+    document.getElementById('loginPassword').onkeypress = function(e) { if(e.key === 'Enter') login(); };
+    
     checkSavedLogin();
 </script>
 </body>
