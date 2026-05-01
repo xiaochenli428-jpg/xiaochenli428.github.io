@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>XCMG 备件采购到货管理系统 V1.0 (云端版)</title>
+    <title>XCMG 备件采购到货管理系统 V1.0</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -22,10 +22,8 @@
             padding: 6px 14px;
             border-radius: 30px;
             font-size: 0.7rem;
-            font-family: monospace;
             z-index: 999;
         }
-        /* 登录页面样式 */
         .login-page {
             display: flex;
             justify-content: center;
@@ -42,9 +40,7 @@
             max-width: 460px;
             padding: 48px 40px;
             text-align: center;
-            transition: transform 0.3s;
         }
-        .login-card:hover { transform: translateY(-5px); }
         .xcmg-logo-login { margin-bottom: 24px; }
         .logo-icon-login {
             width: 80px;
@@ -65,45 +61,38 @@
         .login-error { background: #fee2e2; color: #991b1b; padding: 12px; border-radius: 12px; font-size: 0.8rem; margin-bottom: 20px; display: none; }
         .form-group { margin-bottom: 24px; text-align: left; }
         .form-group label { display: block; margin-bottom: 8px; font-weight: 500; font-size: 0.85rem; color: #1e4663; }
-        .form-group input { width: 100%; padding: 14px 18px; border: 1px solid #e2e8f0; border-radius: 16px; font-size: 1rem; transition: all 0.3s; background: #f8fafc; }
+        .form-group input { width: 100%; padding: 14px 18px; border: 1px solid #e2e8f0; border-radius: 16px; font-size: 1rem; background: #f8fafc; }
         .form-group input:focus { outline: none; border-color: #1e6f5c; box-shadow: 0 0 0 3px rgba(30,111,92,0.1); background: white; }
-        .btn-login { width: 100%; padding: 14px; background: linear-gradient(135deg, #1e6f5c 0%, #2c7a4d 100%); color: white; border: none; border-radius: 40px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.3s; margin-top: 8px; box-shadow: 0 4px 15px rgba(30,111,92,0.3); }
+        .btn-login { width: 100%; padding: 14px; background: linear-gradient(135deg, #1e6f5c 0%, #2c7a4d 100%); color: white; border: none; border-radius: 40px; font-size: 1rem; font-weight: 600; cursor: pointer; margin-top: 8px; }
         .btn-login:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(30,111,92,0.4); }
 
-        /* 主内容样式 */
         .container { max-width: 1600px; margin: 0 auto; background: white; border-radius: 24px; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1); overflow: hidden; }
         .header { background: linear-gradient(135deg, #0b2b3f 0%, #1a4a5f 100%); color: white; padding: 16px 28px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
         .logo-area { display: flex; align-items: center; gap: 15px; }
         .logo-icon-small { width: 48px; height: 48px; background: rgba(255,255,255,0.15); border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 28px; }
-        .title-area h1 { font-size: 1.4rem; margin: 0; font-weight: 600; }
+        .title-area h1 { font-size: 1.4rem; margin: 0; }
         .title-area p { font-size: 0.7rem; opacity: 0.8; margin: 4px 0 0; }
         .user-info { display: flex; align-items: center; gap: 16px; background: rgba(255,255,255,0.12); padding: 6px 18px; border-radius: 40px; }
         .user-name { font-weight: 500; font-size: 0.85rem; }
         .user-role { font-size: 0.7rem; padding: 3px 12px; border-radius: 30px; background: #e6a017; color: #1e293b; }
         .user-role.super-admin { background: #ef4444; color: white; }
-        .user-role.admin { background: #e6a017; color: #1e293b; }
-        .user-role.viewer { background: #10b981; color: white; }
         .logout-btn { background: rgba(255,255,255,0.2); border: none; color: white; padding: 6px 14px; border-radius: 30px; cursor: pointer; font-size: 0.75rem; }
-        .logout-btn:hover { background: rgba(255,255,255,0.3); }
 
         .module-tabs { display: flex; background: #f8fafc; border-bottom: 1px solid #e2e8f0; padding: 0 28px; gap: 8px; }
-        .module-tab { padding: 16px 28px; cursor: pointer; font-weight: 600; font-size: 0.9rem; border: none; background: none; color: #64748b; position: relative; transition: all 0.3s; }
-        .module-tab:hover { color: #1e6f5c; }
+        .module-tab { padding: 16px 28px; cursor: pointer; font-weight: 600; font-size: 0.9rem; border: none; background: none; color: #64748b; position: relative; }
         .module-tab.active { color: #1e6f5c; }
-        .module-tab.active::after { content: ''; position: absolute; bottom: -1px; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, #1e6f5c, #2c7a4d); border-radius: 3px 3px 0 0; }
+        .module-tab.active::after { content: ''; position: absolute; bottom: -1px; left: 0; right: 0; height: 3px; background: #1e6f5c; }
         .module-content { display: none; }
         .module-content.active { display: block; }
 
         .toolbar { padding: 18px 28px; background: white; border-bottom: 1px solid #e2e8f0; display: flex; gap: 12px; flex-wrap: wrap; justify-content: space-between; }
         .btn-group { display: flex; gap: 12px; flex-wrap: wrap; }
-        .btn { border: none; padding: 8px 20px; border-radius: 12px; font-weight: 500; font-size: 0.85rem; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; gap: 6px; }
-        .btn-primary { background: linear-gradient(135deg, #1e6f5c, #2c7a4d); color: white; }
-        .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(30,111,92,0.3); }
-        .btn-success { background: linear-gradient(135deg, #2c7a4d, #1e6f5c); color: white; }
-        .btn-info { background: linear-gradient(135deg, #3b82f6, #2563eb); color: white; }
-        .btn-danger { background: linear-gradient(135deg, #ef4444, #dc2626); color: white; }
+        .btn { border: none; padding: 8px 20px; border-radius: 12px; font-weight: 500; font-size: 0.85rem; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+        .btn-primary { background: #1e6f5c; color: white; }
+        .btn-success { background: #2c7a4d; color: white; }
+        .btn-info { background: #3b82f6; color: white; }
+        .btn-danger { background: #ef4444; color: white; }
         .btn-secondary { background: #e2e8f0; color: #475569; }
-        .btn-warning { background: linear-gradient(135deg, #e6a017, #d97706); color: white; }
 
         .search-panel { padding: 20px 28px; background: #f8fafc; border-bottom: 1px solid #e2e8f0; }
         .search-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px 16px; margin-bottom: 16px; }
@@ -112,12 +101,11 @@
         .search-item input { padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 10px; font-size: 0.85rem; background: white; }
         .search-actions { display: flex; gap: 12px; justify-content: flex-end; }
 
-        .result-stats { padding: 14px 28px; font-size: 0.85rem; background: white; display: flex; justify-content: space-between; border-bottom: 1px solid #e2e8f0; font-weight: 500; color: #1e4663; }
+        .result-stats { padding: 14px 28px; font-size: 0.85rem; background: white; display: flex; justify-content: space-between; border-bottom: 1px solid #e2e8f0; }
         .table-wrapper { overflow-x: auto; padding: 0 20px 24px 20px; }
-        .data-table { width: 100%; border-collapse: collapse; font-size: 0.7rem; background: white; border-radius: 16px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
-        .data-table th { background: #f0f4f9; padding: 14px 10px; font-weight: 600; border-bottom: 2px solid #dce5ec; white-space: nowrap; color: #1e4663; }
+        .data-table { width: 100%; border-collapse: collapse; font-size: 0.7rem; background: white; border-radius: 16px; overflow: hidden; }
+        .data-table th { background: #f0f4f9; padding: 14px 10px; border-bottom: 2px solid #dce5ec; color: #1e4663; }
         .data-table td { padding: 10px 8px; border-bottom: 1px solid #edf2f7; text-align: center; }
-        .data-table tr:hover { background: #f8fafc; }
 
         .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); z-index: 1000; display: flex; justify-content: center; align-items: center; }
         .modal.hidden { display: none; }
@@ -126,21 +114,16 @@
         .close-modal { background: none; border: none; font-size: 28px; cursor: pointer; }
 
         .form-group-m { margin-bottom: 16px; }
-        .form-group-m label { display: block; margin-bottom: 6px; font-weight: 500; font-size: 0.85rem; }
+        .form-group-m label { display: block; margin-bottom: 6px; font-weight: 500; }
         .form-group-m input, .form-group-m select { width: 100%; padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 10px; }
 
         .permission-group { border: 1px solid #e2e8f0; border-radius: 12px; padding: 14px; margin-bottom: 16px; background: #f8fafc; }
-        .permission-group h4 { margin: 0 0 12px 0; font-size: 0.85rem; color: #1e4663; }
-        .permission-item { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; font-size: 0.8rem; }
-        .permission-item input { width: auto; margin: 0; }
-        .columns-selector { max-height: 300px; overflow-y: auto; border: 1px solid #e2e8f0; border-radius: 12px; padding: 12px; background: white; }
-        .columns-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 8px; }
-        .role-selector { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 12px; }
-        .role-btn { padding: 6px 14px; border: 1px solid #cbd5e1; border-radius: 30px; background: white; cursor: pointer; font-size: 0.75rem; }
-
+        .permission-group h4 { margin: 0 0 12px 0; font-size: 0.85rem; }
+        .permission-item { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
+        
         .progress-bar { width: 100%; background: #e2e8f0; border-radius: 20px; overflow: hidden; margin: 10px 20px; }
-        .progress-fill { width: 0%; height: 24px; background: linear-gradient(90deg, #1e6f5c, #2c7a4d); transition: width 0.3s; color: white; text-align: center; font-size: 0.7rem; line-height: 24px; }
-        .toast { position: fixed; bottom: 30px; right: 30px; background: #2c7a4d; color: white; padding: 14px 28px; border-radius: 50px; z-index: 1100; animation: fadeOut 3s ease; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
+        .progress-fill { width: 0%; height: 24px; background: #1e6f5c; transition: width 0.3s; color: white; text-align: center; font-size: 0.7rem; line-height: 24px; }
+        .toast { position: fixed; bottom: 30px; right: 30px; background: #2c7a4d; color: white; padding: 14px 28px; border-radius: 50px; z-index: 1100; animation: fadeOut 3s ease; }
         @keyframes fadeOut { 0% { opacity: 1; } 70% { opacity: 1; } 100% { opacity: 0; visibility: hidden; } }
         footer { padding: 16px 28px; font-size: 0.7rem; color: #94a3b8; text-align: center; border-top: 1px solid #e2edf2; background: #f8fafc; }
 
@@ -148,13 +131,12 @@
         .main-content.visible { display: block; }
         .login-page.hidden { display: none; }
 
-        @media (max-width: 768px) { body { padding: 10px; } .module-tab { padding: 12px 16px; font-size: 0.8rem; } .toolbar { padding: 12px 16px; } .search-panel { padding: 12px 16px; } }
+        @media (max-width: 768px) { body { padding: 10px; } .module-tab { padding: 12px 16px; font-size: 0.8rem; } }
     </style>
 </head>
 <body>
-<div class="version-badge">XCMG 备件采购到货管理系统 V1.0 (云端版)</div>
+<div class="version-badge">XCMG 备件采购到货管理系统 V1.0</div>
 
-<!-- 登录页面 -->
 <div id="loginPage" class="login-page">
     <div class="login-card">
         <div class="xcmg-logo-login">
@@ -177,7 +159,6 @@
     </div>
 </div>
 
-<!-- 主内容 -->
 <div id="mainContent" class="main-content">
     <div class="container">
         <div class="header">
@@ -201,7 +182,6 @@
             <button class="module-tab" data-module="user" id="userModuleTab" style="display:none;">👥 账户管理</button>
         </div>
 
-        <!-- 备件订单管理模块 -->
         <div id="orderModule" class="module-content active">
             <div class="toolbar">
                 <div class="btn-group">
@@ -231,7 +211,6 @@
             <div class="table-wrapper"><table class="data-table" id="orderTable"><thead id="orderHeader"></thead><tbody id="orderBody"><tr><td colspan="50">加载中...<\/td><\/tr><\/tbody><\/table><\/div>
         <\/div>
 
-        <!-- 发运进度跟踪模块 -->
         <div id="shipmentModule" class="module-content">
             <div class="toolbar">
                 <div class="btn-group"><button class="btn btn-success" id="shipmentQuickUpdateBtn">⚡ 一键更新</button><button class="btn btn-primary" id="shipmentExportBtn">📎 导出Excel</button><\/div>
@@ -253,7 +232,6 @@
             <div class="table-wrapper"><table class="data-table" id="shipmentTable"><thead id="shipmentHeader"><\/thead><tbody id="shipmentBody"><tr><td colspan="30">加载中...<\/td><\/tr><\/tbody><\/table><\/div>
         <\/div>
 
-        <!-- 账户管理模块 -->
         <div id="userModule" class="module-content">
             <div class="toolbar">
                 <div class="btn-group"><button class="btn btn-success" id="addUserBtn">➕ 新增账户<\/button><\/div>
@@ -262,43 +240,29 @@
             <div class="search-panel">
                 <div class="search-grid">
                     <div class="search-item"><label>👤 用户名<\/label><input type="text" id="userSearchName" placeholder="模糊匹配"><\/div>
-                    <div class="search-item"><label>🎭 角色<\/label><select id="userSearchRole"><option value="">全部<\/option><option value="super_admin">超级管理员<\/option><option value="admin">管理员<\/option><option value="viewer">访客(中文)<\/option><option value="viewer_pt">访客(葡语)<\/option><\/select><\/div>
+                    <div class="search-item"><label>🎭 角色<\/label><select id="userSearchRole"><option value="">全部<\/option><option value="super_admin">超级管理员<\/option><option value="admin">管理员<\/option><option value="viewer">访客<\/option><\/select><\/div>
                 <\/div>
                 <div class="search-actions"><button class="btn btn-primary" id="userSearchBtn">🔍 检索<\/button><button class="btn" id="userResetBtn">⟳ 重置<\/button><\/div>
             <\/div>
             <div class="result-stats"><span>👥 账户总数: <strong id="userTotalSpan">0<\/strong><\/span><span>🔍 当前显示: <strong id="userDisplaySpan">0<\/strong><\/span><\/div>
-            <div class="table-wrapper">
-                <table class="data-table"><thead><tr><th>用户名</th><th>角色</th><th>语言</th><th>订单模块</th><th>发运模块</th><th>列显示</th><th>导入</th><th>删除</th><th>操作</th><\/tr><\/thead><tbody id="userBody"><\/tbody><\/table>
-            <\/div>
+            <div class="table-wrapper"><table class="data-table"><thead><tr><th>用户名</th><th>角色</th><th>语言</th><th>订单模块</th><th>发运模块</th><th>列显示</th><th>导入</th><th>删除</th><th>操作</th><\/tr><\/thead><tbody id="userBody"><\/tbody><\/table><\/div>
         <\/div>
-        <footer>© 2025 XCMG · 徐工集团 · 备件采购到货管理系统 · 数据云端存储，多人实时共享<\/footer>
+        <footer>© 2025 XCMG · 备件采购到货管理系统 · 数据云端存储<\/footer>
     <\/div>
 <\/div>
 
-<!-- 账户编辑模态框 -->
 <div id="userModal" class="modal hidden">
     <div class="modal-content">
-        <div class="modal-header"><h3 id="userModalTitle">编辑账户</h3><button class="close-modal" id="closeUserModal">&times;<\/button><\/div>
+        <div class="modal-header"><h3>编辑账户</h3><button class="close-modal" id="closeUserModal">&times;<\/button><\/div>
         <div id="userModalError" class="login-error" style="display:none;"><\/div>
-        <div class="form-group-m"><label>用户名 *<\/label><input type="text" id="modalUsername" placeholder="用户名"><\/div>
-        <div class="form-group-m"><label>密码 *<\/label><input type="password" id="modalPassword" placeholder="密码（留空则不修改）"><\/div>
-        <div class="form-group-m"><label>显示名称<\/label><input type="text" id="modalDisplayName" placeholder="显示名称"><\/div>
+        <div class="form-group-m"><label>用户名 *<\/label><input type="text" id="modalUsername"><\/div>
+        <div class="form-group-m"><label>密码 *<\/label><input type="password" id="modalPassword"><\/div>
+        <div class="form-group-m"><label>显示名称<\/label><input type="text" id="modalDisplayName"><\/div>
         <div class="form-group-m"><label>语言界面<\/label><select id="modalLanguage"><option value="zh">中文<\/option><option value="pt">Português<\/option><\/select><\/div>
-        <div class="form-group-m"><label>角色<\/label><select id="modalRole"><option value="admin">管理员<\/option><option value="viewer">访客(中文)<\/option><option value="viewer_pt">访客(葡语)<\/option><\/select><\/div>
+        <div class="form-group-m"><label>角色<\/label><select id="modalRole"><option value="admin">管理员<\/option><option value="viewer">访客<\/option><\/select><\/div>
         
         <div class="permission-group"><h4>📋 备件订单模块权限</h4><div class="permission-item"><input type="checkbox" id="modalOrderView"> <label>查看备件订单模块</label><\/div><\/div>
         <div class="permission-group"><h4>🚢 发运进度模块权限</h4><div class="permission-item"><input type="checkbox" id="modalShipmentView"> <label>查看发运进度模块</label><\/div><\/div>
-        
-        <div class="permission-group"><h4>📊 列显示权限</h4>
-            <div class="role-selector">
-                <button type="button" class="role-btn" id="copyFromAdmin">复制管理员权限</button>
-                <button type="button" class="role-btn" id="copyFromViewer">复制访客权限</button>
-                <button type="button" class="role-btn" id="selectAllCols">全选</button>
-                <button type="button" class="role-btn" id="deselectAllCols">全不选</button>
-                <button type="button" class="role-btn" id="selectFirst13Cols">仅显示前13列(A-M)</button>
-            <\/div>
-            <div class="columns-selector"><div class="columns-grid" id="orderColumnsContainer"><\/div><\/div>
-        <\/div>
         
         <div class="permission-group"><h4>🔧 系统权限</h4>
             <div class="permission-item"><input type="checkbox" id="modalCanImport"> <label>允许导入数据</label><\/div>
@@ -311,21 +275,17 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"><\/script>
 <script src="https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js"><\/script>
 <script>
-    // ====================== Supabase 配置 ======================
+    // Supabase 配置
     const SUPABASE_URL = 'https://mptyqhvbthiebmbhygbpxb.supabase.co';
     const SUPABASE_KEY = 'sb_publishable_OquFgVgmkDY0p9ImpD7BcQ_uwylKhmM';
     const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-    // ====================== 全局变量 ======================
-    var MAX_DISPLAY_ROWS = 500;
+    // 全局变量
     var currentUser = null;
-    var currentLang = 'zh';
-    var currentDisplayLimit = 5;
     var orderData = [];
     var shipmentData = [];
     var userAccounts = {};
 
-    // 字段定义
     var orderFields = [
         "序号", "检索码", "需求单号", "可用状态", "停用原因", "保留", "辅助列", "申请人", "收货仓库", "订单类型", "申请部门",
         "采购单号SAP", "采购订单号CRM", "采购计划单SAP", "供应商", "主机厂代码", "发运方式", "主机型号", "原始需求物料号",
@@ -335,232 +295,230 @@
     ];
 
     var shipmentFields = [
-        "合同号", "提单号", "发运日期", "船期", "预计到港日期", "计划到货日期",
-        "订单类型", "主机型号", "实际发运物料号", "物料号", "物料描述", "葡描",
-        "数量", "NCM", "出厂单价", "出厂总价", "总净重", "总毛重",
-        "单件净重", "单件毛重", "库位", "订单号", "SJ号", "申请部门", "在途", "实际到厂时间"
+        "合同号", "提单号", "发运日期", "船期", "预计到港日期", "计划到货日期", "订单类型", "主机型号",
+        "实际发运物料号", "物料号", "物料描述", "葡描", "数量", "NCM", "出厂单价", "出厂总价",
+        "总净重", "总毛重", "单件净重", "单件毛重", "库位", "订单号", "SJ号", "申请部门", "在途", "实际到厂时间"
     ];
 
-    // ====================== 云端数据操作 API ======================
+    function escapeHtml(str) { if (!str) return ''; return String(str).replace(/[&<>]/g, function(m) { return m === '&' ? '&amp;' : (m === '<' ? '&lt;' : '&gt;'); }); }
+    
+    function showToast(msg, isErr) { 
+        var toast = document.createElement('div'); 
+        toast.className = 'toast'; 
+        toast.style.background = isErr ? '#c72a2a' : '#2c7a4d'; 
+        toast.innerText = msg; 
+        document.body.appendChild(toast); 
+        setTimeout(function() { if(toast) toast.remove(); }, 3000); 
+    }
+
+    // API 函数
     async function apiLogin(username, password) {
-        const { data, error } = await supabase
-            .from('users')
-            .select('*')
-            .eq('username', username)
-            .eq('password', password)
-            .single();
-        if (data) return { success: true, user: data };
-        return { success: false, message: '用户名或密码错误' };
+        try {
+            const { data, error } = await supabase
+                .from('users')
+                .select('*')
+                .eq('username', username)
+                .eq('password', password)
+                .maybeSingle();
+            if (error) { console.error('Login error:', error); return { success: false, message: error.message }; }
+            if (data) return { success: true, user: data };
+            return { success: false, message: '用户名或密码错误' };
+        } catch(e) { return { success: false, message: e.message }; }
     }
 
     async function apiGetUsers() {
-        const { data, error } = await supabase.from('users').select('*');
-        if (error) return {};
-        var usersObj = {};
-        data.forEach(function(user) { usersObj[user.username] = user; });
-        return usersObj;
+        try {
+            const { data, error } = await supabase.from('users').select('*');
+            if (error) return {};
+            var obj = {};
+            if (data) data.forEach(function(u) { obj[u.username] = u; });
+            return obj;
+        } catch(e) { return {}; }
     }
 
     async function apiSaveUser(username, userData) {
-        var { error } = await supabase.from('users').upsert({ username: username, ...userData });
-        return { success: !error };
+        try {
+            const { error } = await supabase.from('users').upsert({ username: username, ...userData });
+            return { success: !error };
+        } catch(e) { return { success: false }; }
     }
 
-    async function apiDeleteUser(username) {
-        var { error } = await supabase.from('users').delete().eq('username', username);
-        return { success: !error };
+    async function apiSaveUsersBatch(usersObj) {
+        var usersList = [];
+        for (var u in usersObj) { usersList.push({ username: u, ...usersObj[u] }); }
+        if (usersList.length === 0) return;
+        try {
+            const { error } = await supabase.from('users').upsert(usersList);
+            return { success: !error };
+        } catch(e) { return { success: false }; }
     }
 
     async function apiGetOrders() {
-        var { data, error } = await supabase.from('orders').select('data').eq('id', 1).single();
-        return data?.data || [];
+        try {
+            const { data, error } = await supabase.from('orders').select('data').eq('id', 1).maybeSingle();
+            if (error) return [];
+            return data?.data || [];
+        } catch(e) { return []; }
     }
 
     async function apiSaveOrders(ordersData) {
-        var { error } = await supabase.from('orders').upsert({ id: 1, data: ordersData, updated_at: new Date() });
-        return { success: !error };
+        try {
+            const { error } = await supabase.from('orders').upsert({ id: 1, data: ordersData });
+            return { success: !error };
+        } catch(e) { return { success: false }; }
     }
 
     async function apiGetShipments() {
-        var { data, error } = await supabase.from('shipments').select('data').eq('id', 1).single();
-        return data?.data || [];
+        try {
+            const { data, error } = await supabase.from('shipments').select('data').eq('id', 1).maybeSingle();
+            if (error) return [];
+            return data?.data || [];
+        } catch(e) { return []; }
     }
 
     async function apiSaveShipments(shipmentsData) {
-        var { error } = await supabase.from('shipments').upsert({ id: 1, data: shipmentsData, updated_at: new Date() });
-        return { success: !error };
+        try {
+            const { error } = await supabase.from('shipments').upsert({ id: 1, data: shipmentsData });
+            return { success: !error };
+        } catch(e) { return { success: false }; }
     }
 
-    // ====================== 数据加载保存函数 ======================
-    async function loadOrderData() { var data = await apiGetOrders(); if (data && data.length) orderData = data; return orderData; }
-    async function saveOrderData() { await apiSaveOrders(orderData); }
-    async function loadShipmentData() { var data = await apiGetShipments(); if (data && data.length) shipmentData = data; return shipmentData; }
-    async function saveShipmentData() { await apiSaveShipments(shipmentData); }
-    async function loadUserAccounts() { userAccounts = await apiGetUsers(); return userAccounts; }
-    async function saveUserAccounts() { for (var u in userAccounts) { await apiSaveUser(u, userAccounts[u]); } }
-
-    function escapeHtml(str) { if (!str) return ''; return String(str).replace(/[&<>]/g, function(m) { return m === '&' ? '&amp;' : (m === '<' ? '&lt;' : '&gt;'); }); }
-    function showToast(message, isError) { var toast = document.createElement('div'); toast.className = 'toast'; toast.style.background = isError ? '#c72a2a' : '#2c7a4d'; toast.innerText = message; document.body.appendChild(toast); setTimeout(function() { if(toast && toast.remove) toast.remove(); }, 3000); }
-
-    function getVisibleOrderColumns(allFields) {
-        if (!currentUser || !currentUser.permissions || !currentUser.permissions.orderColumns) return allFields;
-        var cols = currentUser.permissions.orderColumns;
-        var visible = [];
-        for (var i = 0; i < allFields.length; i++) { if (cols[i]) visible.push(allFields[i]); }
-        return visible.length ? visible : allFields;
-    }
-
-    function getVisibleShipmentColumns(allFields) {
-        if (!currentUser || !currentUser.permissions || !currentUser.permissions.shipmentColumns) return allFields;
-        var cols = currentUser.permissions.shipmentColumns;
-        var visible = [];
-        for (var i = 0; i < allFields.length; i++) { if (cols[i]) visible.push(allFields[i]); }
-        return visible.length ? visible : allFields;
-    }
-
-    function renderOrderHeader() {
-        var allFields = orderFields;
-        var visible = getVisibleOrderColumns(allFields);
-        var thead = document.getElementById('orderHeader');
-        var html = '<tr>';
-        for (var i = 0; i < visible.length; i++) html += '<th>' + visible[i] + '</th>';
-        html += '<th>操作</th></tr>';
-        thead.innerHTML = html;
-    }
-
-    function renderShipmentHeader() {
-        var allFields = shipmentFields;
-        var visible = getVisibleShipmentColumns(allFields);
-        var thead = document.getElementById('shipmentHeader');
-        var html = '<tr>';
-        for (var i = 0; i < visible.length; i++) html += '<th>' + visible[i] + '</th>';
-        html += '<th>操作</th></tr>';
-        thead.innerHTML = html;
-    }
-
-    function renderOrderTable(dataArray, isSearch) {
+    // 渲染函数
+    function renderOrderTable() {
         var tbody = document.getElementById('orderBody');
-        var totalCount = orderData.length;
-        var displayData = dataArray;
-        if (displayData.length > MAX_DISPLAY_ROWS) { displayData = displayData.slice(0, MAX_DISPLAY_ROWS); }
-        else if (!isSearch && dataArray.length === orderData.length && totalCount > currentDisplayLimit && totalCount <= MAX_DISPLAY_ROWS) { displayData = dataArray.slice(0, currentDisplayLimit); }
-        document.getElementById('orderTotalSpan').innerText = totalCount;
-        document.getElementById('orderDisplaySpan').innerText = displayData.length;
-        if (displayData.length === 0) { tbody.innerHTML = '<tr><td colspan="50">暂无数据<\/td><\/tr>'; return; }
-        var allFields = orderFields;
-        var visibleCols = getVisibleOrderColumns(allFields);
-        var visibleIndices = [];
-        for (var i = 0; i < visibleCols.length; i++) { var idx = allFields.indexOf(visibleCols[i]); if (idx === -1) idx = i; visibleIndices.push(idx); }
-        var canDelete = currentUser && currentUser.permissions && currentUser.permissions.canDelete;
+        document.getElementById('orderTotalSpan').innerText = orderData.length;
+        document.getElementById('orderDisplaySpan').innerText = orderData.length;
+        if (orderData.length === 0) { tbody.innerHTML = '<tr><td colspan="50">暂无数据<\/td><\/tr>'; return; }
         var html = '';
-        for (var i = 0; i < displayData.length; i++) {
-            var row = displayData[i];
-            var originalIndex = orderData.indexOf(row);
-            if (originalIndex === -1) originalIndex = i;
-            html += '<td>';
-            for (var j = 0; j < visibleIndices.length; j++) {
-                var val = row[visibleIndices[j]] || '';
-                var display = escapeHtml(String(val));
-                if (display.length > 30) display = display.substring(0,30)+'...';
-                html += '<td title="'+escapeHtml(String(val))+'">'+display+'<\/td>';
-            }
-            if (canDelete) { html += '<td><button class="btn btn-warning" onclick="deleteOrderRecord('+originalIndex+')" style="padding:4px 10px;">删除</button><\/td>'; }
-            else { html += '<td><span style="color:#94a3b8;">只读</span><\/td>'; }
-            html += '<\/tr>';
-        }
-        tbody.innerHTML = html;
-    }
-
-    function renderShipmentTable(dataArray, isSearch) {
-        var tbody = document.getElementById('shipmentBody');
-        var totalCount = shipmentData.length;
-        var displayData = dataArray;
-        if (displayData.length > MAX_DISPLAY_ROWS) { displayData = displayData.slice(0, MAX_DISPLAY_ROWS); }
-        else if (!isSearch && dataArray.length === shipmentData.length && totalCount > currentDisplayLimit && totalCount <= MAX_DISPLAY_ROWS) { displayData = dataArray.slice(0, currentDisplayLimit); }
-        document.getElementById('shipmentTotalSpan').innerText = totalCount;
-        document.getElementById('shipmentDisplaySpan').innerText = displayData.length;
-        if (displayData.length === 0) { tbody.innerHTML = '<tr><td colspan="30">暂无数据<\/td><\/tr>'; return; }
-        var allFields = shipmentFields;
-        var visibleCols = getVisibleShipmentColumns(allFields);
-        var visibleIndices = [];
-        for (var i = 0; i < visibleCols.length; i++) { var idx = allFields.indexOf(visibleCols[i]); if (idx === -1) idx = i; visibleIndices.push(idx); }
-        var canDelete = currentUser && currentUser.permissions && currentUser.permissions.canDelete;
-        var html = '';
-        for (var i = 0; i < displayData.length; i++) {
-            var row = displayData[i];
-            var originalIndex = shipmentData.indexOf(row);
-            if (originalIndex === -1) originalIndex = i;
-            html += '<tr>';
-            for (var j = 0; j < visibleIndices.length; j++) {
-                var val = row[visibleIndices[j]] || '';
-                var display = escapeHtml(String(val));
-                if (display.length > 30) display = display.substring(0,30)+'...';
-                html += '<td title="'+escapeHtml(String(val))+'">'+display+'<\/td>';
-            }
-            if (canDelete) { html += '<td><button class="btn btn-warning" onclick="deleteShipmentRecord('+originalIndex+')" style="padding:4px 10px;">删除</button><\/td>'; }
-            else { html += '<td><span style="color:#94a3b8;">只读</span><\/td>'; }
-            html += '<\/tr>';
-        }
-        tbody.innerHTML = html;
-    }
-
-    function getFilteredOrderData() {
-        var poSap = document.getElementById('orderSearchPoSap').value.trim();
-        var poCrm = document.getElementById('orderSearchPoCrm').value.trim();
-        var planPo = document.getElementById('orderSearchPlanPo').value.trim();
-        var rawMaterial = document.getElementById('orderSearchRawMaterial').value.trim();
-        var actualMaterial = document.getElementById('orderSearchActualMaterial').value.trim();
-        var supplier = document.getElementById('orderSearchSupplier').value.trim();
-        var warehouse = document.getElementById('orderSearchWarehouse').value.trim();
-        var dept = document.getElementById('orderSearchDept').value.trim();
-        var result = [];
-        for (var i = 0; i < orderData.length; i++) {
+        for (var i = 0; i < Math.min(orderData.length, 500); i++) {
             var row = orderData[i];
-            if (poSap && !(row[11] && row[11].includes(poSap))) continue;
-            if (poCrm && !(row[12] && row[12].includes(poCrm))) continue;
-            if (planPo && !(row[13] && row[13].includes(planPo))) continue;
-            if (rawMaterial && !(row[18] && row[18].includes(rawMaterial))) continue;
-            if (actualMaterial && !(row[20] && row[20].includes(actualMaterial))) continue;
-            if (supplier && !(row[14] && row[14].includes(supplier))) continue;
-            if (warehouse && !(row[8] && row[8].includes(warehouse))) continue;
-            if (dept && !(row[10] && row[10].includes(dept))) continue;
-            result.push(row);
+            html += '<tr>';
+            for (var j = 0; j < Math.min(orderFields.length, row.length); j++) {
+                var val = row[j] || '';
+                var display = escapeHtml(String(val));
+                if (display.length > 30) display = display.substring(0,30)+'...';
+                html += '<td title="'+escapeHtml(String(val))+'">'+display+'<\/td>';
+            }
+            html += '<td><span style="color:#94a3b8;">只读<\/span><\/td><\/tr>';
         }
-        return result;
+        tbody.innerHTML = html;
     }
 
-    function getFilteredShipmentData() {
-        var material = document.getElementById('shipmentSearchMaterial').value.trim();
-        var bl = document.getElementById('shipmentSearchBL').value.trim();
-        var sj = document.getElementById('shipmentSearchSJ').value.trim();
-        var shipDate = document.getElementById('shipmentSearchShipDate').value;
-        var eta = document.getElementById('shipmentSearchEta').value;
-        var actual = document.getElementById('shipmentSearchActual').value;
-        var result = [];
-        for (var i = 0; i < shipmentData.length; i++) {
+    function renderShipmentTable() {
+        var tbody = document.getElementById('shipmentBody');
+        document.getElementById('shipmentTotalSpan').innerText = shipmentData.length;
+        document.getElementById('shipmentDisplaySpan').innerText = shipmentData.length;
+        if (shipmentData.length === 0) { tbody.innerHTML = '<tr><td colspan="30">暂无数据<\/td><\/tr>'; return; }
+        var html = '';
+        for (var i = 0; i < Math.min(shipmentData.length, 500); i++) {
             var row = shipmentData[i];
-            if (material && !(row[8] && row[8].includes(material)) && !(row[9] && row[9].includes(material))) continue;
-            if (bl && !(row[1] && row[1].includes(bl))) continue;
-            if (sj && !(row[22] && row[22].includes(sj))) continue;
-            if (shipDate && row[3] !== shipDate) continue;
-            if (eta && row[4] !== eta) continue;
-            if (actual && row[25] !== actual) continue;
-            result.push(row);
+            html += '<tr>';
+            for (var j = 0; j < Math.min(shipmentFields.length, row.length); j++) {
+                var val = row[j] || '';
+                var display = escapeHtml(String(val));
+                if (display.length > 30) display = display.substring(0,30)+'...';
+                html += '<td title="'+escapeHtml(String(val))+'">'+display+'<\/td>';
+            }
+            html += '<td><span style="color:#94a3b8;">只读<\/span><\/td><\/tr>';
         }
-        return result;
+        tbody.innerHTML = html;
     }
 
-    function performOrderSearch() { renderOrderTable(getFilteredOrderData(), true); }
-    function resetOrderFilters() { var ids = ['orderSearchPoSap','orderSearchPoCrm','orderSearchPlanPo','orderSearchRawMaterial','orderSearchActualMaterial','orderSearchSupplier','orderSearchWarehouse','orderSearchDept']; for(var i=0;i<ids.length;i++) document.getElementById(ids[i]).value=''; renderOrderTable(orderData, false); }
-    function performShipmentSearch() { renderShipmentTable(getFilteredShipmentData(), true); }
-    function resetShipmentFilters() { var ids = ['shipmentSearchMaterial','shipmentSearchBL','shipmentSearchSJ','shipmentSearchShipDate','shipmentSearchEta','shipmentSearchActual']; for(var i=0;i<ids.length;i++) document.getElementById(ids[i]).value=''; renderShipmentTable(shipmentData, false); }
+    function renderUserTable() {
+        var tbody = document.getElementById('userBody');
+        var count = 0;
+        for (var u in userAccounts) { if (u !== 'lixiaochen') count++; }
+        document.getElementById('userTotalSpan').innerText = count;
+        document.getElementById('userDisplaySpan').innerText = count;
+        var html = '';
+        for (var u in userAccounts) {
+            if (u === 'lixiaochen') continue;
+            var user = userAccounts[u];
+            var roleText = user.role === 'super_admin' ? '超级管理员' : (user.role === 'admin' ? '管理员' : '访客');
+            var langText = user.language === 'pt' ? 'Português' : '中文';
+            html += '<tr>';
+            html += '<td>'+escapeHtml(u)+'<\/td>';
+            html += '<td>'+roleText+'<\/td>';
+            html += '<td>'+langText+'<\/td>';
+            html += '<td>'+(user.permissions?.orderView ? '✅' : '❌')+'<\/td>';
+            html += '<td>'+(user.permissions?.shipmentView ? '✅' : '❌')+'<\/td>';
+            html += '<td>'+(user.permissions?.canImport ? '✅' : '❌')+'<\/td>';
+            html += '<td>'+(user.permissions?.canDelete ? '✅' : '❌')+'<\/td>';
+            html += '<td><button class="btn btn-warning" onclick="editUser(\''+escapeHtml(u)+'\')">编辑</button> <button class="btn btn-danger" onclick="deleteUser(\''+escapeHtml(u)+'\')">删除</button><\/td>';
+            html += '<\/tr>';
+        }
+        tbody.innerHTML = html;
+    }
 
-    async function deleteOrderRecord(idx) { if (currentUser?.permissions?.canDelete && confirm('确定删除？')) { orderData.splice(idx,1); await saveOrderData(); resetOrderFilters(); showToast('删除成功'); refreshOptions(); } }
-    async function deleteShipmentRecord(idx) { if (currentUser?.permissions?.canDelete && confirm('确定删除？')) { shipmentData.splice(idx,1); await saveShipmentData(); resetShipmentFilters(); showToast('删除成功'); } }
-    window.deleteOrderRecord = deleteOrderRecord;
-    window.deleteShipmentRecord = deleteShipmentRecord;
+    function editUser(username) {
+        var user = userAccounts[username];
+        if (!user) return;
+        document.getElementById('modalUsername').value = username;
+        document.getElementById('modalUsername').disabled = true;
+        document.getElementById('modalPassword').value = '';
+        document.getElementById('modalDisplayName').value = user.name || '';
+        document.getElementById('modalLanguage').value = user.language || 'zh';
+        document.getElementById('modalRole').value = user.role;
+        document.getElementById('modalOrderView').checked = user.permissions?.orderView || false;
+        document.getElementById('modalShipmentView').checked = user.permissions?.shipmentView || false;
+        document.getElementById('modalCanImport').checked = user.permissions?.canImport || false;
+        document.getElementById('modalCanDelete').checked = user.permissions?.canDelete || false;
+        document.getElementById('userModal').classList.remove('hidden');
+    }
 
-    async function importOrderExcel(file, showProgress) {
+    async function deleteUser(username) {
+        if (username === 'lixiaochen') { alert('不能删除超级管理员'); return; }
+        if (confirm('删除账户 "' + username + '"？')) {
+            delete userAccounts[username];
+            await apiSaveUsersBatch(userAccounts);
+            renderUserTable();
+            showToast('已删除');
+        }
+    }
+
+    function addUser() {
+        document.getElementById('modalUsername').value = '';
+        document.getElementById('modalUsername').disabled = false;
+        document.getElementById('modalPassword').value = '';
+        document.getElementById('modalDisplayName').value = '';
+        document.getElementById('modalLanguage').value = 'zh';
+        document.getElementById('modalRole').value = 'viewer';
+        document.getElementById('modalOrderView').checked = true;
+        document.getElementById('modalShipmentView').checked = true;
+        document.getElementById('modalCanImport').checked = false;
+        document.getElementById('modalCanDelete').checked = false;
+        document.getElementById('userModal').classList.remove('hidden');
+    }
+
+    async function saveUser() {
+        var username = document.getElementById('modalUsername').value.trim();
+        var password = document.getElementById('modalPassword').value;
+        var displayName = document.getElementById('modalDisplayName').value.trim();
+        var language = document.getElementById('modalLanguage').value;
+        var role = document.getElementById('modalRole').value;
+        var orderView = document.getElementById('modalOrderView').checked;
+        var shipmentView = document.getElementById('modalShipmentView').checked;
+        var canImport = document.getElementById('modalCanImport').checked;
+        var canDelete = document.getElementById('modalCanDelete').checked;
+        var errorDiv = document.getElementById('userModalError');
+        if (!username) { errorDiv.innerText = '请输入用户名'; errorDiv.style.display='block'; return; }
+        var isEdit = document.getElementById('modalUsername').disabled;
+        if (!isEdit && userAccounts[username]) { errorDiv.innerText = '用户名已存在'; errorDiv.style.display='block'; return; }
+        if (!isEdit && !password) { errorDiv.innerText = '请输入密码'; errorDiv.style.display='block'; return; }
+        userAccounts[username] = {
+            password: password || userAccounts[username]?.password,
+            role: role,
+            name: displayName || username,
+            language: language,
+            permissions: { orderView: orderView, shipmentView: shipmentView, canImport: canImport, canDelete: canDelete }
+        };
+        await apiSaveUsersBatch(userAccounts);
+        document.getElementById('userModal').classList.add('hidden');
+        renderUserTable();
+        showToast('保存成功');
+    }
+
+    async function importOrderExcel(file) {
         if (!currentUser?.permissions?.canImport) { alert('权限不足'); return; }
         var reader = new FileReader();
         reader.onload = async function(e) {
@@ -583,31 +541,91 @@
                     }
                     imported.push(processed);
                 }
-                if (showProgress) { var percent = Math.round((i-1)/rows.length*100); document.getElementById('orderProgressFill').style.width=percent+'%'; document.getElementById('orderProgressFill').innerText=percent+'%'; }
             }
             if (imported.length === 0) { alert('无有效数据'); return; }
             orderData = imported;
-            await saveOrderData();
-            resetOrderFilters();
-            if (showProgress) { document.getElementById('orderProgress').style.display = 'none'; }
+            await apiSaveOrders(orderData);
+            renderOrderTable();
             showToast('导入成功！共 ' + orderData.length + ' 条记录');
-            refreshOptions();
+            extractOptions();
         };
         reader.readAsArrayBuffer(file);
     }
 
-    async function importShipmentExcel(file, showProgress) { if (!currentUser?.permissions?.canImport) { alert('权限不足'); return; } var reader = new FileReader(); reader.onload = async function(e) { var data = new Uint8Array(e.target.result); var workbook = XLSX.read(data, { type: 'array' }); var rows = XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]], { header: 1, defval: "" }); if (!rows || rows.length < 2) { alert('无数据'); return; } var imported = []; for (var i = 1; i < rows.length; i++) { var row = rows[i]; while (row.length < 26) row.push(''); var isEmpty = true; for (var j=0;j<row.length;j++) { if (row[j] && String(row[j]).trim() !== '') { isEmpty=false; break; } } if (!isEmpty) { var processed = []; for (var j=0;j<26;j++) { var cell = row[j] || ''; if (cell instanceof Date) cell = cell.toISOString().split('T')[0]; processed.push(String(cell)); } imported.push(processed); } if (showProgress) { var percent = Math.round((i-1)/rows.length*100); document.getElementById('shipmentProgressFill').style.width=percent+'%'; document.getElementById('shipmentProgressFill').innerText=percent+'%'; } } if (imported.length === 0) { alert('无有效数据'); return; } shipmentData = imported; await saveShipmentData(); resetShipmentFilters(); if (showProgress) { document.getElementById('shipmentProgress').style.display = 'none'; } showToast('导入成功！共 ' + shipmentData.length + ' 条记录'); }; reader.readAsArrayBuffer(file); }
+    async function importShipmentExcel(file) {
+        if (!currentUser?.permissions?.canImport) { alert('权限不足'); return; }
+        var reader = new FileReader();
+        reader.onload = async function(e) {
+            var data = new Uint8Array(e.target.result);
+            var workbook = XLSX.read(data, { type: 'array' });
+            var rows = XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]], { header: 1, defval: "" });
+            if (!rows || rows.length < 2) { alert('无数据'); return; }
+            var imported = [];
+            for (var i = 1; i < rows.length; i++) {
+                var row = rows[i];
+                while (row.length < 26) row.push('');
+                var isEmpty = true;
+                for (var j=0;j<row.length;j++) { if (row[j] && String(row[j]).trim() !== '') { isEmpty=false; break; } }
+                if (!isEmpty) {
+                    var processed = [];
+                    for (var j=0;j<26;j++) {
+                        var cell = row[j] || '';
+                        if (cell instanceof Date) cell = cell.toISOString().split('T')[0];
+                        processed.push(String(cell));
+                    }
+                    imported.push(processed);
+                }
+            }
+            if (imported.length === 0) { alert('无有效数据'); return; }
+            shipmentData = imported;
+            await apiSaveShipments(shipmentData);
+            renderShipmentTable();
+            showToast('导入成功！共 ' + shipmentData.length + ' 条记录');
+        };
+        reader.readAsArrayBuffer(file);
+    }
 
-    function quickUpdateOrder() { if (!currentUser?.permissions?.canImport) { alert('权限不足'); return; } showToast('请选择订单详情Excel文件'); document.getElementById('orderProgress').style.display = 'block'; document.getElementById('orderProgressFill').style.width = '0%'; var input = document.createElement('input'); input.type = 'file'; input.accept = '.xlsx,.xls'; input.onchange = function(e) { if(e.target.files[0]) importOrderExcel(e.target.files[0], true); }; input.click(); }
-    function quickUpdateShipment() { if (!currentUser?.permissions?.canImport) { alert('权限不足'); return; } showToast('请选择发运信息Excel文件'); document.getElementById('shipmentProgress').style.display = 'block'; document.getElementById('shipmentProgressFill').style.width = '0%'; var input = document.createElement('input'); input.type = 'file'; input.accept = '.xlsx,.xls'; input.onchange = function(e) { if(e.target.files[0]) importShipmentExcel(e.target.files[0], true); }; input.click(); }
-    function exportOrderExcel() { if (orderData.length === 0) { alert('无数据'); return; } var exportData = [orderFields]; for (var i=0;i<orderData.length;i++) exportData.push(orderData[i]); var ws = XLSX.utils.aoa_to_sheet(exportData); var wb = XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb, ws, '备件订单'); XLSX.writeFile(wb, '备件订单_' + new Date().toISOString().slice(0,19).replace(/:/g,'-') + '.xlsx'); showToast('导出成功'); }
-    function exportShipmentExcel() { if (shipmentData.length === 0) { alert('无数据'); return; } var exportData = [shipmentFields]; for (var i=0;i<shipmentData.length;i++) exportData.push(shipmentData[i]); var ws = XLSX.utils.aoa_to_sheet(exportData); var wb = XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb, ws, '发运进度'); XLSX.writeFile(wb, '发运进度_' + new Date().toISOString().slice(0,19).replace(/:/g,'-') + '.xlsx'); showToast('导出成功'); }
-    function downloadOrderTemplate() { var template = [orderFields]; var sample = new Array(47).fill(''); sample[11]='示例SAP_PO'; sample[12]='示例CRM_PO'; sample[13]='示例计划单'; sample[14]='示例供应商'; sample[8]='示例仓库'; sample[10]='示例部门'; template.push(sample); var ws = XLSX.utils.aoa_to_sheet(template); var wb = XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb, ws, '模板'); XLSX.writeFile(wb, '备件订单模板.xlsx'); showToast('模板下载成功'); }
-    function downloadShipmentTemplate() { var template = [shipmentFields]; var sample = new Array(26).fill(''); sample[0]='示例合同号'; sample[1]='示例提单号'; sample[22]='示例SJ号'; template.push(sample); var ws = XLSX.utils.aoa_to_sheet(template); var wb = XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb, ws, '模板'); XLSX.writeFile(wb, '发运进度模板.xlsx'); showToast('模板下载成功'); }
-    async function clearOrderData() { if (currentUser?.permissions?.canDelete && confirm('清空所有订单数据？')) { orderData = []; await saveOrderData(); resetOrderFilters(); showToast('已清空'); refreshOptions(); } }
-    async function clearShipmentData() { if (currentUser?.permissions?.canDelete && confirm('清空所有发运数据？')) { shipmentData = []; await saveShipmentData(); resetShipmentFilters(); showToast('已清空'); } }
+    function quickUpdateOrder() { if (!currentUser?.permissions?.canImport) { alert('权限不足'); return; } var input = document.createElement('input'); input.type = 'file'; input.accept = '.xlsx,.xls'; input.onchange = function(e) { if(e.target.files[0]) importOrderExcel(e.target.files[0]); }; input.click(); }
+    function quickUpdateShipment() { if (!currentUser?.permissions?.canImport) { alert('权限不足'); return; } var input = document.createElement('input'); input.type = 'file'; input.accept = '.xlsx,.xls'; input.onchange = function(e) { if(e.target.files[0]) importShipmentExcel(e.target.files[0]); }; input.click(); }
+    function exportOrderExcel() { if (orderData.length === 0) { alert('无数据'); return; } var exportData = [orderFields]; for (var i=0;i<orderData.length;i++) exportData.push(orderData[i]); var ws = XLSX.utils.aoa_to_sheet(exportData); var wb = XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb, ws, '备件订单'); XLSX.writeFile(wb, '备件订单.xlsx'); showToast('导出成功'); }
+    function exportShipmentExcel() { if (shipmentData.length === 0) { alert('无数据'); return; } var exportData = [shipmentFields]; for (var i=0;i<shipmentData.length;i++) exportData.push(shipmentData[i]); var ws = XLSX.utils.aoa_to_sheet(exportData); var wb = XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb, ws, '发运进度'); XLSX.writeFile(wb, '发运进度.xlsx'); showToast('导出成功'); }
+    function downloadOrderTemplate() { var template = [orderFields]; var sample = new Array(47).fill(''); sample[11]='示例SAP'; template.push(sample); var ws = XLSX.utils.aoa_to_sheet(template); var wb = XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb, ws, '模板'); XLSX.writeFile(wb, '备件订单模板.xlsx'); }
+    function downloadShipmentTemplate() { var template = [shipmentFields]; var sample = new Array(26).fill(''); sample[0]='示例合同号'; template.push(sample); var ws = XLSX.utils.aoa_to_sheet(template); var wb = XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb, ws, '模板'); XLSX.writeFile(wb, '发运进度模板.xlsx'); }
+    async function clearOrderData() { if (confirm('清空所有订单数据？')) { orderData = []; await apiSaveOrders(orderData); renderOrderTable(); showToast('已清空'); } }
+    async function clearShipmentData() { if (confirm('清空所有发运数据？')) { shipmentData = []; await apiSaveShipments(shipmentData); renderShipmentTable(); showToast('已清空'); } }
 
-    async function refreshOptions() { setTimeout(extractOptions, 300); }
+    function getFilteredOrderData() {
+        var poSap = document.getElementById('orderSearchPoSap').value.trim();
+        var result = [];
+        for (var i = 0; i < orderData.length; i++) {
+            if (poSap && !(orderData[i][11] && orderData[i][11].includes(poSap))) continue;
+            result.push(orderData[i]);
+        }
+        return result;
+    }
+
+    function performOrderSearch() { 
+        var filtered = getFilteredOrderData();
+        var tbody = document.getElementById('orderBody');
+        if (filtered.length === 0) { tbody.innerHTML = '<tr><td colspan="50">暂无数据<\/td><\/tr>'; return; }
+        var html = '';
+        for (var i = 0; i < Math.min(filtered.length, 500); i++) {
+            var row = filtered[i];
+            html += '<tr>';
+            for (var j = 0; j < Math.min(orderFields.length, row.length); j++) {
+                var val = row[j] || '';
+                var display = escapeHtml(String(val));
+                if (display.length > 30) display = display.substring(0,30)+'...';
+                html += '<td>'+display+'<\/td>';
+            }
+            html += '<td><span style="color:#94a3b8;">只读<\/span><\/td><\/tr>';
+        }
+        tbody.innerHTML = html;
+    }
+    function resetOrderFilters() { document.getElementById('orderSearchPoSap').value = ''; renderOrderTable(); }
+
+    function performShipmentSearch() { var material = document.getElementById('shipmentSearchMaterial').value.trim(); var result = []; for (var i = 0; i < shipmentData.length; i++) { if (material && !(shipmentData[i][8] && shipmentData[i][8].includes(material))) continue; result.push(shipmentData[i]); } var tbody = document.getElementById('shipmentBody'); if (result.length === 0) { tbody.innerHTML = '<tr><td colspan="30">暂无数据<\/td><\/tr>'; return; } var html = ''; for (var i = 0; i < Math.min(result.length, 500); i++) { var row = result[i]; html += '<td>'; for (var j = 0; j < Math.min(shipmentFields.length, row.length); j++) { var val = row[j] || ''; var display = escapeHtml(String(val)); if (display.length > 30) display = display.substring(0,30)+'...'; html += '<td>'+display+'<\/td>'; } html += '<td><span style="color:#94a3b8;">只读<\/span><\/td><\/tr>'; } tbody.innerHTML = html; }
+    function resetShipmentFilters() { document.getElementById('shipmentSearchMaterial').value = ''; renderShipmentTable(); }
 
     async function extractOptions() {
         var suppliers = [], warehouses = [], depts = [];
@@ -633,52 +651,25 @@
         document.getElementById('orderSearchDept').setAttribute('list', 'deptList');
     }
 
-    async function renderUserTable() {
-        var searchName = document.getElementById('userSearchName').value.trim();
-        var searchRole = document.getElementById('userSearchRole').value;
-        var filtered = [];
-        for (var u in userAccounts) { if (u === 'lixiaochen') continue; var user = userAccounts[u]; if (searchName && !u.includes(searchName) && !(user.name && user.name.includes(searchName))) continue; if (searchRole && user.role !== searchRole) continue; filtered.push({username: u, user: user}); }
-        document.getElementById('userTotalSpan').innerText = Object.keys(userAccounts).length - 1;
-        document.getElementById('userDisplaySpan').innerText = filtered.length;
-        var tbody = document.getElementById('userBody');
-        if (filtered.length === 0) { tbody.innerHTML = '<tr><td colspan="9">暂无账户<\/td><\/tr>'; return; }
-        var html = '';
-        for (var i=0;i<filtered.length;i++) {
-            var u = filtered[i];
-            var user = u.user;
-            var roleText = user.role === 'super_admin' ? '超级管理员' : (user.role === 'admin' ? '管理员' : (user.role === 'viewer_pt' ? '访客(葡语)' : '访客'));
-            var langText = user.language === 'pt' ? 'Português' : '中文';
-            var orderCols = user.permissions.orderColumns;
-            var orderColCount = 0; for(var k in orderCols) if(orderCols[k]) orderColCount++;
-            var colDisplay = orderColCount === 47 ? '全部列' : (orderColCount === 13 ? 'A-M列' : orderColCount+'列');
-            html += '<tr>';
-            html += '<td>'+escapeHtml(u.username)+'<\/td>';
-            html += '<td>'+roleText+'<\/td>';
-            html += '<td>'+langText+'<\/td>';
-            html += '<td>'+(user.permissions.orderView?'✅':'❌')+'<\/td>';
-            html += '<td>'+(user.permissions.shipmentView?'✅':'❌')+'<\/td>';
-            html += '<td>'+colDisplay+'<\/td>';
-            html += '<td>'+(user.permissions.canImport?'✅':'❌')+'<\/td>';
-            html += '<td>'+(user.permissions.canDelete?'✅':'❌')+'<\/td>';
-            html += '<td><button class="btn btn-warning" onclick="editUser(\''+escapeHtml(u.username)+'\')" style="padding:4px 8px;">编辑</button> <button class="btn btn-danger" onclick="deleteUser(\''+escapeHtml(u.username)+'\')" style="padding:4px 8px;">删除</button><\/td>';
-            html += '<\/tr>';
+    function switchModule(moduleName) {
+        var tabs = document.querySelectorAll('.module-tab');
+        for (var i = 0; i < tabs.length; i++) {
+            if (tabs[i].getAttribute('data-module') === moduleName) tabs[i].classList.add('active');
+            else tabs[i].classList.remove('active');
         }
-        tbody.innerHTML = html;
+        document.getElementById('orderModule').classList.remove('active');
+        document.getElementById('shipmentModule').classList.remove('active');
+        document.getElementById('userModule').classList.remove('active');
+        if (moduleName === 'order') { document.getElementById('orderModule').classList.add('active'); renderOrderTable(); }
+        else if (moduleName === 'shipment') { document.getElementById('shipmentModule').classList.add('active'); renderShipmentTable(); }
+        else if (moduleName === 'user') { document.getElementById('userModule').classList.add('active'); renderUserTable(); }
     }
-
-    function initColumnSelectors() { var container = document.getElementById('orderColumnsContainer'); var html = '<div class="permission-group" style="margin-bottom:10px;"><h4>备件订单模块列显示 (47列)</h4><\/div>'; for (var i = 0; i < orderFields.length; i++) { html += '<label style="display:flex; align-items:center; gap:6px;"><input type="checkbox" class="order-col-checkbox" data-col="'+i+'" value="'+i+'"> '+orderFields[i]+'</label>'; } var shipmentContainer = document.createElement('div'); shipmentContainer.id = 'shipmentColumnsContainer'; var shipmentHtml = '<div class="permission-group" style="margin-bottom:10px;"><h4>发运进度模块列显示 (26列)</h4><\/div>'; for (var i = 0; i < shipmentFields.length; i++) { shipmentHtml += '<label style="display:flex; align-items:center; gap:6px;"><input type="checkbox" class="shipment-col-checkbox" data-col="'+i+'" value="'+i+'"> '+shipmentFields[i]+'</label>'; } shipmentContainer.innerHTML = shipmentHtml; container.innerHTML = html; container.appendChild(shipmentContainer); }
-    function loadColumnSelections(username) { var user = userAccounts[username]; if (!user) return; var orderCols = user.permissions.orderColumns || {}; var orderChecks = document.querySelectorAll('.order-col-checkbox'); for (var i = 0; i < orderChecks.length; i++) { var cb = orderChecks[i]; var col = parseInt(cb.dataset.col); cb.checked = orderCols[col] === true; } var shipmentChecks = document.querySelectorAll('.shipment-col-checkbox'); for (var i = 0; i < shipmentChecks.length; i++) { var cb = shipmentChecks[i]; var col = parseInt(cb.dataset.col); cb.checked = (user.permissions.shipmentColumns && user.permissions.shipmentColumns[col]) === true; } }
-    function getSelectedColumns() { var orderCols = {}; var orderChecks = document.querySelectorAll('.order-col-checkbox'); for (var i = 0; i < orderChecks.length; i++) orderCols[parseInt(orderChecks[i].dataset.col)] = orderChecks[i].checked; var shipmentCols = {}; var shipmentChecks = document.querySelectorAll('.shipment-col-checkbox'); for (var i = 0; i < shipmentChecks.length; i++) shipmentCols[parseInt(shipmentChecks[i].dataset.col)] = shipmentChecks[i].checked; return { orderColumns: orderCols, shipmentColumns: shipmentCols }; }
-    function copyPermissionsFromRole(roleType) { var sourceUser = null; if (roleType === 'admin') sourceUser = userAccounts['admin']; else if (roleType === 'viewer') sourceUser = userAccounts['VISTER']; if (!sourceUser) return; var orderChecks = document.querySelectorAll('.order-col-checkbox'); var sourceOrderCols = sourceUser.permissions.orderColumns; for (var i = 0; i < orderChecks.length; i++) { var col = parseInt(orderChecks[i].dataset.col); orderChecks[i].checked = sourceOrderCols[col] === true; } var shipmentChecks = document.querySelectorAll('.shipment-col-checkbox'); var sourceShipCols = sourceUser.permissions.shipmentColumns; for (var i = 0; i < shipmentChecks.length; i++) { var col = parseInt(shipmentChecks[i].dataset.col); shipmentChecks[i].checked = sourceShipCols[col] === true; } showToast('已复制' + (roleType === 'admin' ? '管理员' : '访客') + '的列显示权限'); }
-    function editUser(username) { var user = userAccounts[username]; if (!user) return; document.getElementById('userModalTitle').innerText = '编辑账户 - ' + username; document.getElementById('modalUsername').value = username; document.getElementById('modalUsername').disabled = true; document.getElementById('modalPassword').value = ''; document.getElementById('modalDisplayName').value = user.name || ''; document.getElementById('modalLanguage').value = user.language || 'zh'; document.getElementById('modalRole').value = user.role; document.getElementById('modalOrderView').checked = user.permissions.orderView; document.getElementById('modalShipmentView').checked = user.permissions.shipmentView; document.getElementById('modalCanImport').checked = user.permissions.canImport; document.getElementById('modalCanDelete').checked = user.permissions.canDelete; initColumnSelectors(); loadColumnSelections(username); document.getElementById('userModal').classList.remove('hidden'); }
-    async function deleteUser(username) { if (username === 'lixiaochen') { alert('不能删除超级管理员'); return; } if (confirm('删除账户 "' + username + '"？')) { delete userAccounts[username]; await saveUserAccounts(); renderUserTable(); showToast('已删除'); } }
-    function addUser() { document.getElementById('userModalTitle').innerText = '新增账户'; document.getElementById('modalUsername').value = ''; document.getElementById('modalUsername').disabled = false; document.getElementById('modalPassword').value = ''; document.getElementById('modalDisplayName').value = ''; document.getElementById('modalLanguage').value = 'zh'; document.getElementById('modalRole').value = 'viewer'; document.getElementById('modalOrderView').checked = true; document.getElementById('modalShipmentView').checked = true; document.getElementById('modalCanImport').checked = false; document.getElementById('modalCanDelete').checked = false; initColumnSelectors(); var allChecks = document.querySelectorAll('.order-col-checkbox, .shipment-col-checkbox'); for (var i = 0; i < allChecks.length; i++) allChecks[i].checked = false; var first13Order = document.querySelectorAll('.order-col-checkbox'); for (var i = 0; i < Math.min(13, first13Order.length); i++) if(first13Order[i]) first13Order[i].checked = true; var first13Ship = document.querySelectorAll('.shipment-col-checkbox'); for (var i = 0; i < Math.min(13, first13Ship.length); i++) if(first13Ship[i]) first13Ship[i].checked = true; document.getElementById('userModal').classList.remove('hidden'); }
-    async function saveUser() { var username = document.getElementById('modalUsername').value.trim(); var password = document.getElementById('modalPassword').value; var displayName = document.getElementById('modalDisplayName').value.trim(); var language = document.getElementById('modalLanguage').value; var role = document.getElementById('modalRole').value; var orderView = document.getElementById('modalOrderView').checked; var shipmentView = document.getElementById('modalShipmentView').checked; var canImport = document.getElementById('modalCanImport').checked; var canDelete = document.getElementById('modalCanDelete').checked; var cols = getSelectedColumns(); var errorDiv = document.getElementById('userModalError'); if (!username) { errorDiv.innerText = '请输入用户名'; errorDiv.style.display='block'; return; } var isEdit = document.getElementById('modalUsername').disabled; if (!isEdit && userAccounts[username]) { errorDiv.innerText = '用户名已存在'; errorDiv.style.display='block'; return; } if (!isEdit && !password) { errorDiv.innerText = '请输入密码'; errorDiv.style.display='block'; return; } userAccounts[username] = { password: password || userAccounts[username]?.password, role: role, name: displayName || username, language: language, permissions: { orderView: orderView, shipmentView: shipmentView, orderColumns: cols.orderColumns, shipmentColumns: cols.shipmentColumns, canImport: canImport, canDelete: canDelete } }; await saveUserAccounts(); document.getElementById('userModal').classList.add('hidden'); renderUserTable(); showToast('保存成功'); }
 
     function applyUIPermissions() {
         var isSuperAdmin = currentUser && currentUser.role === 'super_admin';
         var userTab = document.getElementById('userModuleTab');
-        if (isSuperAdmin) { userTab.style.display = 'inline-block'; } else { userTab.style.display = 'none'; }
+        if (isSuperAdmin) userTab.style.display = 'inline-block';
+        else userTab.style.display = 'none';
         var canImport = currentUser && currentUser.permissions && currentUser.permissions.canImport;
         var canDelete = currentUser && currentUser.permissions && currentUser.permissions.canDelete;
         document.getElementById('orderQuickUpdateBtn').style.display = canImport ? 'inline-block' : 'none';
@@ -692,43 +683,27 @@
         else { roleSpan.innerText = '访客'; roleSpan.className = 'user-role viewer'; }
     }
 
-    function switchModule(moduleName) {
-        var tabs = document.querySelectorAll('.module-tab');
-        for (var i = 0; i < tabs.length; i++) {
-            if (tabs[i].getAttribute('data-module') === moduleName) { tabs[i].classList.add('active'); }
-            else { tabs[i].classList.remove('active'); }
-        }
-        document.getElementById('orderModule').classList.remove('active');
-        document.getElementById('shipmentModule').classList.remove('active');
-        document.getElementById('userModule').classList.remove('active');
-        if (moduleName === 'order') { document.getElementById('orderModule').classList.add('active'); renderOrderHeader(); renderOrderTable(orderData, false); }
-        else if (moduleName === 'shipment') { document.getElementById('shipmentModule').classList.add('active'); renderShipmentHeader(); renderShipmentTable(shipmentData, false); }
-        else if (moduleName === 'user') { document.getElementById('userModule').classList.add('active'); renderUserTable(); }
-    }
-
     async function login() {
         var username = document.getElementById('loginUsername').value.trim();
         var password = document.getElementById('loginPassword').value;
         var errorDiv = document.getElementById('loginError');
-        if (!username || !password) { errorDiv.innerText = '请输入用户名和密码 / Digite usuário e senha'; errorDiv.style.display='block'; return; }
+        if (!username || !password) { errorDiv.innerText = '请输入用户名和密码'; errorDiv.style.display='block'; return; }
         var result = await apiLogin(username, password);
         if (result.success) {
             currentUser = result.user;
-            currentLang = currentUser.language === 'pt' ? 'pt' : 'zh';
             sessionStorage.setItem('currentUser', JSON.stringify(currentUser));
-            await loadOrderData();
-            await loadShipmentData();
+            orderData = await apiGetOrders();
+            shipmentData = await apiGetShipments();
             userAccounts = await apiGetUsers();
             document.getElementById('loginPage').classList.add('hidden');
             document.getElementById('mainContent').classList.add('visible');
             applyUIPermissions();
-            renderOrderHeader();
-            renderOrderTable(orderData, false);
-            renderShipmentHeader();
-            renderShipmentTable(shipmentData, false);
-            refreshOptions();
+            renderOrderTable();
+            renderShipmentTable();
+            renderUserTable();
+            extractOptions();
             showToast('欢迎回来，' + currentUser.name);
-        } else { errorDiv.innerText = '用户名或密码错误 / Usuário ou senha incorretos'; errorDiv.style.display='block'; }
+        } else { errorDiv.innerText = result.message; errorDiv.style.display='block'; }
     }
 
     function logout() {
@@ -738,7 +713,6 @@
         document.getElementById('loginPage').classList.remove('hidden');
         document.getElementById('loginUsername').value = '';
         document.getElementById('loginPassword').value = '';
-        document.getElementById('loginError').style.display = 'none';
     }
 
     async function checkSavedLogin() {
@@ -749,67 +723,51 @@
                 var users = await apiGetUsers();
                 if (users[u.username]) {
                     currentUser = u;
-                    currentLang = currentUser.language === 'pt' ? 'pt' : 'zh';
-                    await loadOrderData();
-                    await loadShipmentData();
+                    orderData = await apiGetOrders();
+                    shipmentData = await apiGetShipments();
                     userAccounts = users;
                     document.getElementById('loginPage').classList.add('hidden');
                     document.getElementById('mainContent').classList.add('visible');
                     applyUIPermissions();
-                    renderOrderHeader();
-                    renderOrderTable(orderData, false);
-                    renderShipmentHeader();
-                    renderShipmentTable(shipmentData, false);
-                    refreshOptions();
+                    renderOrderTable();
+                    renderShipmentTable();
+                    renderUserTable();
+                    extractOptions();
                     return;
                 }
-            } catch(e) {}
+            } catch(e) { console.error(e); }
         }
         document.getElementById('loginPage').classList.remove('hidden');
     }
 
-    function initOptions() { setTimeout(function() { if (orderData && orderData.length > 0) { extractOptions(); } else { setTimeout(extractOptions, 500); } }, 500); }
-
     // 事件绑定
-    document.getElementById('loginBtn').addEventListener('click', login);
-    document.getElementById('logoutBtn').addEventListener('click', logout);
-    var moduleTabs = document.querySelectorAll('.module-tab');
-    for (var i = 0; i < moduleTabs.length; i++) { moduleTabs[i].addEventListener('click', function() { switchModule(this.getAttribute('data-module')); }); }
-    document.getElementById('orderSearchBtn').addEventListener('click', performOrderSearch);
-    document.getElementById('orderResetBtn').addEventListener('click', resetOrderFilters);
-    document.getElementById('orderQuickUpdateBtn').addEventListener('click', quickUpdateOrder);
-    document.getElementById('orderExportBtn').addEventListener('click', exportOrderExcel);
-    document.getElementById('orderTemplateBtn').addEventListener('click', downloadOrderTemplate);
-    document.getElementById('orderClearBtn').addEventListener('click', clearOrderData);
-    document.getElementById('shipmentSearchBtn').addEventListener('click', performShipmentSearch);
-    document.getElementById('shipmentResetBtn').addEventListener('click', resetShipmentFilters);
-    document.getElementById('shipmentQuickUpdateBtn').addEventListener('click', quickUpdateShipment);
-    document.getElementById('shipmentExportBtn').addEventListener('click', exportShipmentExcel);
-    document.getElementById('shipmentTemplateBtn').addEventListener('click', downloadShipmentTemplate);
-    document.getElementById('shipmentClearBtn').addEventListener('click', clearShipmentData);
-    document.getElementById('addUserBtn').addEventListener('click', addUser);
-    document.getElementById('refreshUserBtn').addEventListener('click', renderUserTable);
-    document.getElementById('userSearchBtn').addEventListener('click', renderUserTable);
-    document.getElementById('userResetBtn').addEventListener('click', function() { document.getElementById('userSearchName').value=''; document.getElementById('userSearchRole').value=''; renderUserTable(); });
-    document.getElementById('closeUserModal').addEventListener('click', function() { document.getElementById('userModal').classList.add('hidden'); });
-    document.getElementById('cancelUserBtn').addEventListener('click', function() { document.getElementById('userModal').classList.add('hidden'); });
-    document.getElementById('saveUserBtn').addEventListener('click', saveUser);
-    
-    var selectAllBtn = document.getElementById('selectAllCols');
-    if (selectAllBtn) {
-        selectAllBtn.addEventListener('click', function() { var checks = document.querySelectorAll('.order-col-checkbox, .shipment-col-checkbox'); for(var i=0;i<checks.length;i++) checks[i].checked = true; });
-        document.getElementById('deselectAllCols').addEventListener('click', function() { var checks = document.querySelectorAll('.order-col-checkbox, .shipment-col-checkbox'); for(var i=0;i<checks.length;i++) checks[i].checked = false; });
-        document.getElementById('selectFirst13Cols').addEventListener('click', function() { var orderChecks = document.querySelectorAll('.order-col-checkbox'); for(var i=0;i<orderChecks.length;i++) orderChecks[i].checked = (i < 13); var shipChecks = document.querySelectorAll('.shipment-col-checkbox'); for(var i=0;i<shipChecks.length;i++) shipChecks[i].checked = (i < 13); });
-        document.getElementById('copyFromAdmin').addEventListener('click', function() { copyPermissionsFromRole('admin'); });
-        document.getElementById('copyFromViewer').addEventListener('click', function() { copyPermissionsFromRole('viewer'); });
-    }
-    
-    document.getElementById('loginPassword').addEventListener('keypress', function(e) { if(e.key==='Enter') login(); });
-    document.getElementById('loginUsername').addEventListener('keypress', function(e) { if(e.key==='Enter') login(); });
+    document.getElementById('loginBtn').onclick = login;
+    document.getElementById('logoutBtn').onclick = logout;
+    var tabs = document.querySelectorAll('.module-tab');
+    for (var i = 0; i < tabs.length; i++) { tabs[i].onclick = function() { switchModule(this.getAttribute('data-module')); }; }
+    document.getElementById('orderSearchBtn').onclick = performOrderSearch;
+    document.getElementById('orderResetBtn').onclick = resetOrderFilters;
+    document.getElementById('orderQuickUpdateBtn').onclick = quickUpdateOrder;
+    document.getElementById('orderExportBtn').onclick = exportOrderExcel;
+    document.getElementById('orderTemplateBtn').onclick = downloadOrderTemplate;
+    document.getElementById('orderClearBtn').onclick = clearOrderData;
+    document.getElementById('shipmentSearchBtn').onclick = performShipmentSearch;
+    document.getElementById('shipmentResetBtn').onclick = resetShipmentFilters;
+    document.getElementById('shipmentQuickUpdateBtn').onclick = quickUpdateShipment;
+    document.getElementById('shipmentExportBtn').onclick = exportShipmentExcel;
+    document.getElementById('shipmentTemplateBtn').onclick = downloadShipmentTemplate;
+    document.getElementById('shipmentClearBtn').onclick = clearShipmentData;
+    document.getElementById('addUserBtn').onclick = addUser;
+    document.getElementById('refreshUserBtn').onclick = renderUserTable;
+    document.getElementById('userSearchBtn').onclick = renderUserTable;
+    document.getElementById('userResetBtn').onclick = function() { renderUserTable(); };
+    document.getElementById('closeUserModal').onclick = function() { document.getElementById('userModal').classList.add('hidden'); };
+    document.getElementById('cancelUserBtn').onclick = function() { document.getElementById('userModal').classList.add('hidden'); };
+    document.getElementById('saveUserBtn').onclick = saveUser;
+    window.editUser = editUser;
+    window.deleteUser = deleteUser;
 
-    // 初始化
     checkSavedLogin();
-    initOptions();
 </script>
 </body>
 </html>
