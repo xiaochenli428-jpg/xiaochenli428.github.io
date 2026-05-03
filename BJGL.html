@@ -80,6 +80,12 @@
         @keyframes fadeOut { 0% { opacity: 1; } 70% { opacity: 1; } 100% { opacity: 0; visibility: hidden; } }
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; justify-content: center; align-items: center; }
         .modal-content { background: white; border-radius: 24px; width: 90%; max-width: 500px; padding: 24px; }
+        .form-input { width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px; margin-top: 4px; }
+        .form-label { display: block; margin-bottom: 4px; font-weight: 500; font-size: 0.85rem; }
+        .modal-buttons { display: flex; gap: 12px; margin-top: 20px; }
+        .modal-btn { flex: 1; padding: 10px; border: none; border-radius: 8px; cursor: pointer; }
+        .modal-btn-cancel { background: #e2e8f0; }
+        .modal-btn-save { background: #1e6f5c; color: white; }
         @media (max-width: 768px) { .module-tab { padding: 12px 16px; font-size: 0.8rem; } }
     </style>
 </head>
@@ -178,26 +184,55 @@
 
 <div id="userModal" class="modal">
     <div class="modal-content">
-        <div style="display:flex; justify-content:space-between; margin-bottom:20px;"><h3 id="userModalTitle">编辑账户</h3><button id="closeUserModal" style="background:none; border:none; font-size:24px; cursor:pointer;">&times;</button><\/div>
-        <div id="userModalError" style="background:#fee2e2; color:#991b1b; padding:10px; border-radius:8px; margin-bottom:16px; display:none;"><\/div>
-        <div style="margin-bottom:16px;"><label>用户名</label><input type="text" id="modalUsername" style="width:100%; padding:10px; border:1px solid #cbd5e1; border-radius:8px;"><\/div>
-        <div style="margin-bottom:16px;"><label>密码</label><input type="password" id="modalPassword" style="width:100%; padding:10px; border:1px solid #cbd5e1; border-radius:8px;"><\/div>
-        <div style="margin-bottom:16px;"><label>显示名称</label><input type="text" id="modalDisplayName" style="width:100%; padding:10px; border:1px solid #cbd5e1; border-radius:8px;"><\/div>
-        <div style="margin-bottom:16px;"><label>语言界面</label><select id="modalLanguage" style="width:100%; padding:10px; border:1px solid #cbd5e1; border-radius:8px;"><option value="zh">中文<\/option><option value="pt">Português<\/option><\/select><\/div>
-        <div style="margin-bottom:16px;"><label>角色</label><select id="modalRole" style="width:100%; padding:10px; border:1px solid #cbd5e1; border-radius:8px;"><option value="admin">管理员<\/option><option value="viewer">访客<\/option><\/select><\/div>
-        <div style="display:flex; gap:12px; margin-top:20px;"><button id="cancelUserBtn" style="flex:1; padding:10px; background:#e2e8f0; border:none; border-radius:8px; cursor:pointer;">取消<\/button><button id="saveUserBtn" style="flex:1; padding:10px; background:#1e6f5c; color:white; border:none; border-radius:8px; cursor:pointer;">保存<\/button><\/div>
-    <\/div>
-<\/div>
+        <div style="display:flex; justify-content:space-between; margin-bottom:20px;">
+            <h3 id="userModalTitle">编辑账户</h3>
+            <button id="closeUserModal" style="background:none; border:none; font-size:24px; cursor:pointer;">&times;</button>
+        </div>
+        <div id="userModalError" style="background:#fee2e2; color:#991b1b; padding:10px; border-radius:8px; margin-bottom:16px; display:none;"></div>
+        
+        <div style="margin-bottom:16px;">
+            <label class="form-label">用户名</label>
+            <input type="text" id="modalUsername" class="form-input">
+        </div>
+        <div style="margin-bottom:16px;">
+            <label class="form-label">密码</label>
+            <input type="password" id="modalPassword" class="form-input">
+        </div>
+        <div style="margin-bottom:16px;">
+            <label class="form-label">显示名称</label>
+            <input type="text" id="modalDisplayName" class="form-input">
+        </div>
+        <div style="margin-bottom:16px;">
+            <label class="form-label">语言界面</label>
+            <select id="modalLanguage" class="form-input">
+                <option value="zh">中文</option>
+                <option value="pt">Português</option>
+            </select>
+        </div>
+        <div style="margin-bottom:16px;">
+            <label class="form-label">角色</label>
+            <select id="modalRole" class="form-input">
+                <option value="admin">管理员</option>
+                <option value="viewer">访客</option>
+            </select>
+        </div>
+        
+        <div class="modal-buttons">
+            <button id="cancelUserBtn" class="modal-btn modal-btn-cancel">取消</button>
+            <button id="saveUserBtn" class="modal-btn modal-btn-save">保存</button>
+        </div>
+    </div>
+</div>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"><\/script>
-<script src="https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js"><\/script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js"></script>
 <script>
-    // ====================== Supabase 配置 ======================
+    // Supabase 配置
     var supabaseUrl = 'https://mptyqhvbthiebmbhygbpxb.supabase.co';
     var supabaseKey = 'sb_publishable_OquFgVgmkDY0p9ImpD7BcQ_uwylKhmM';
     var supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey);
 
-    // ====================== 全局变量 ======================
+    // 全局变量
     var currentUser = null;
     var orderData = [];
     var shipmentData = [];
@@ -206,17 +241,31 @@
     var orderFields = ["序号", "采购单号SAP", "采购订单号CRM", "采购计划单SAP", "供应商", "原始需求物料号", "实际发运物料号", "物料描述", "数量", "SJ号"];
     var shipmentFields = ["合同号", "提单号", "发运日期", "船期", "预计到港日期", "物料号", "物料描述", "数量", "SJ号", "实际到厂时间"];
 
-    function escapeHtml(str) { if (!str) return ''; return String(str).replace(/[&<>]/g, function(m) { return m === '&' ? '&amp;' : (m === '<' ? '&lt;' : '&gt;'); }); }
-    function showToast(msg) { var t = document.createElement('div'); t.className = 'toast'; t.innerText = msg; document.body.appendChild(t); setTimeout(function() { if(t) t.remove(); }, 3000); }
+    function escapeHtml(str) { 
+        if (!str) return ''; 
+        return String(str).replace(/[&<>]/g, function(m) { 
+            return m === '&' ? '&amp;' : (m === '<' ? '&lt;' : '&gt;'); 
+        }); 
+    }
+    
+    function showToast(msg) { 
+        var t = document.createElement('div'); 
+        t.className = 'toast'; 
+        t.innerText = msg; 
+        document.body.appendChild(t); 
+        setTimeout(function() { if(t) t.remove(); }, 3000); 
+    }
 
-    // ====================== Supabase API 函数 ======================
+    // Supabase API 函数
     async function apiLogin(username, password) {
         try {
             var result = await supabaseClient.from('users').select('*').eq('username', username).eq('password', password).maybeSingle();
             if (result.error) return { success: false, message: result.error.message };
             if (result.data) return { success: true, user: result.data };
             return { success: false, message: '用户名或密码错误' };
-        } catch(e) { return { success: false, message: e.message }; }
+        } catch(e) { 
+            return { success: false, message: e.message }; 
+        }
     }
 
     async function apiGetUsers() {
@@ -224,45 +273,67 @@
             var result = await supabaseClient.from('users').select('*');
             if (result.error) return {};
             var obj = {};
-            if (result.data) result.data.forEach(function(u) { obj[u.username] = u; });
+            if (result.data) {
+                for (var i = 0; i < result.data.length; i++) {
+                    obj[result.data[i].username] = result.data[i];
+                }
+            }
             return obj;
-        } catch(e) { return {}; }
+        } catch(e) { 
+            return {}; 
+        }
     }
 
     async function apiSaveUsersBatch(usersObj) {
         var list = [];
-        for (var u in usersObj) list.push({ username: u, ...usersObj[u] });
+        for (var u in usersObj) {
+            if (usersObj.hasOwnProperty(u)) {
+                list.push({ username: u, ...usersObj[u] });
+            }
+        }
         if (list.length === 0) return;
-        try { await supabaseClient.from('users').upsert(list); } catch(e) {}
+        try { 
+            await supabaseClient.from('users').upsert(list); 
+        } catch(e) {}
     }
 
     async function apiGetOrders() {
         try {
             var result = await supabaseClient.from('orders').select('data').eq('id', 1).maybeSingle();
             return result.data?.data || [];
-        } catch(e) { return []; }
+        } catch(e) { 
+            return []; 
+        }
     }
 
     async function apiSaveOrders(d) {
-        try { await supabaseClient.from('orders').upsert({ id: 1, data: d }); } catch(e) {}
+        try { 
+            await supabaseClient.from('orders').upsert({ id: 1, data: d }); 
+        } catch(e) {}
     }
 
     async function apiGetShipments() {
         try {
             var result = await supabaseClient.from('shipments').select('data').eq('id', 1).maybeSingle();
             return result.data?.data || [];
-        } catch(e) { return []; }
+        } catch(e) { 
+            return []; 
+        }
     }
 
     async function apiSaveShipments(d) {
-        try { await supabaseClient.from('shipments').upsert({ id: 1, data: d }); } catch(e) {}
+        try { 
+            await supabaseClient.from('shipments').upsert({ id: 1, data: d }); 
+        } catch(e) {}
     }
 
-    // ====================== 渲染函数 ======================
+    // 渲染函数
     function renderOrderHeader() {
         var thead = document.getElementById('orderHeader');
         var html = '<tr>';
-        for (var i = 0; i < orderFields.length; i++) html += '<th>' + orderFields[i] + '</th>';
+        for (var i = 0; i < orderFields.length; i++) {
+            html += '<th>' + orderFields[i] + '</th>';
+        }
         html += '<th>操作</th></tr>';
         thead.innerHTML = html;
     }
@@ -270,7 +341,9 @@
     function renderShipmentHeader() {
         var thead = document.getElementById('shipmentHeader');
         var html = '<tr>';
-        for (var i = 0; i < shipmentFields.length; i++) html += '<th>' + shipmentFields[i] + '</th>';
+        for (var i = 0; i < shipmentFields.length; i++) {
+            html += '<th>' + shipmentFields[i] + '</th>';
+        }
         html += '<th>操作</th></tr>';
         thead.innerHTML = html;
     }
@@ -279,18 +352,21 @@
         var tbody = document.getElementById('orderBody');
         document.getElementById('orderTotalSpan').innerText = orderData.length;
         document.getElementById('orderDisplaySpan').innerText = orderData.length;
-        if (orderData.length === 0) { tbody.innerHTML = '<tr><td colspan="' + (orderFields.length+1) + '">暂无数据<\/td><\/tr>'; return; }
+        if (orderData.length === 0) { 
+            tbody.innerHTML = '<tr><td colspan="11">暂无数据<\/td><\/tr>'; 
+            return; 
+        }
         var canDelete = currentUser && currentUser.role === 'super_admin';
         var html = '';
         for (var i = 0; i < orderData.length; i++) {
             var row = orderData[i];
-            html += '<tr>';
+            html += '</table>';
             for (var j = 0; j < orderFields.length; j++) {
                 var val = row[j] || '';
                 html += '<td title="' + escapeHtml(val) + '">' + escapeHtml(val).substring(0,30) + '<\/td>';
             }
             if (canDelete) {
-                html += '<td><button onclick="deleteOrder(' + i + ')" style="background:#e6a017;border:none;padding:4px 8px;border-radius:6px;cursor:pointer;">删除</button><\/td>';
+                html += '<td><button onclick="window.deleteOrder(' + i + ')" style="background:#e6a017;border:none;padding:4px 8px;border-radius:6px;cursor:pointer;">删除</button><\/td>';
             } else {
                 html += '<td><span style="color:#94a3b8;">只读<\/span><\/td>';
             }
@@ -303,7 +379,10 @@
         var tbody = document.getElementById('shipmentBody');
         document.getElementById('shipmentTotalSpan').innerText = shipmentData.length;
         document.getElementById('shipmentDisplaySpan').innerText = shipmentData.length;
-        if (shipmentData.length === 0) { tbody.innerHTML = '<tr><td colspan="' + (shipmentFields.length+1) + '">暂无数据<\/td><\/tr>'; return; }
+        if (shipmentData.length === 0) { 
+            tbody.innerHTML = '<tr><td colspan="11">暂无数据<\/td><\/tr>'; 
+            return; 
+        }
         var canDelete = currentUser && currentUser.role === 'super_admin';
         var html = '';
         for (var i = 0; i < shipmentData.length; i++) {
@@ -314,7 +393,7 @@
                 html += '<td title="' + escapeHtml(val) + '">' + escapeHtml(val).substring(0,30) + '<\/td>';
             }
             if (canDelete) {
-                html += '<td><button onclick="deleteShipment(' + i + ')" style="background:#e6a017;border:none;padding:4px 8px;border-radius:6px;cursor:pointer;">删除</button><\/td>';
+                html += '<td><button onclick="window.deleteShipment(' + i + ')" style="background:#e6a017;border:none;padding:4px 8px;border-radius:6px;cursor:pointer;">删除</button><\/td>';
             } else {
                 html += '<td><span style="color:#94a3b8;">只读<\/span><\/td>';
             }
@@ -326,7 +405,9 @@
     function renderUserTable() {
         var tbody = document.getElementById('userBody');
         var count = 0;
-        for (var u in userAccounts) if (u !== 'lixiaochen') count++;
+        for (var u in userAccounts) {
+            if (u !== 'lixiaochen') count++;
+        }
         document.getElementById('userTotalSpan').innerText = count;
         document.getElementById('userDisplaySpan').innerText = count;
         var html = '';
@@ -339,19 +420,19 @@
             html += '<td>' + escapeHtml(u) + '<\/td>';
             html += '<td>' + roleText + '<\/td>';
             html += '<td>' + langText + '<\/td>';
-            html += '<td>' + '✅' + '<\/td>';
-            html += '<td>' + '✅' + '<\/td>';
+            html += '<td>✅<\/td>';
+            html += '<td>✅<\/td>';
             html += '<td>' + (user.role === 'super_admin' ? '✅' : '❌') + '<\/td>';
             html += '<td>' + (user.role === 'super_admin' ? '✅' : '❌') + '<\/td>';
-            html += '<td><button onclick="editUser(\'' + escapeHtml(u) + '\')" style="background:#e6a017;border:none;padding:4px 8px;border-radius:6px;cursor:pointer;">编辑</button> <button onclick="deleteUser(\'' + escapeHtml(u) + '\')" style="background:#ef4444;border:none;padding:4px 8px;border-radius:6px;cursor:pointer;color:white;">删除</button><\/td>';
+            html += '<td><button onclick="window.editUser(\'' + escapeHtml(u) + '\')" style="background:#e6a017;border:none;padding:4px 8px;border-radius:6px;cursor:pointer;">编辑</button> <button onclick="window.deleteUser(\'' + escapeHtml(u) + '\')" style="background:#ef4444;border:none;padding:4px 8px;border-radius:6px;cursor:pointer;color:white;">删除</button><\/td>';
             html += '<\/tr>';
         }
         tbody.innerHTML = html;
     }
 
-    // ====================== 数据操作函数 ======================
+    // 数据操作函数
     window.deleteOrder = async function(idx) { 
-        if (currentUser.role !== 'super_admin') { alert('权限不足'); return; }
+        if (!currentUser || currentUser.role !== 'super_admin') { alert('权限不足'); return; }
         orderData.splice(idx,1); 
         await apiSaveOrders(orderData); 
         renderOrderTable(); 
@@ -359,7 +440,7 @@
     };
     
     window.deleteShipment = async function(idx) { 
-        if (currentUser.role !== 'super_admin') { alert('权限不足'); return; }
+        if (!currentUser || currentUser.role !== 'super_admin') { alert('权限不足'); return; }
         shipmentData.splice(idx,1); 
         await apiSaveShipments(shipmentData); 
         renderShipmentTable(); 
@@ -367,7 +448,7 @@
     };
 
     window.editUser = function(username) {
-        if (currentUser.role !== 'super_admin') { alert('权限不足'); return; }
+        if (!currentUser || currentUser.role !== 'super_admin') { alert('权限不足'); return; }
         var user = userAccounts[username];
         if (!user) return;
         document.getElementById('modalUsername').value = username;
@@ -380,7 +461,7 @@
     };
 
     window.deleteUser = async function(username) {
-        if (currentUser.role !== 'super_admin') { alert('权限不足'); return; }
+        if (!currentUser || currentUser.role !== 'super_admin') { alert('权限不足'); return; }
         if (username === 'lixiaochen') { alert('不能删除超级管理员'); return; }
         if (confirm('删除账户 "' + username + '"？')) {
             delete userAccounts[username];
@@ -391,7 +472,7 @@
     };
 
     function addUser() {
-        if (currentUser.role !== 'super_admin') { alert('权限不足'); return; }
+        if (!currentUser || currentUser.role !== 'super_admin') { alert('权限不足'); return; }
         document.getElementById('modalUsername').value = '';
         document.getElementById('modalUsername').disabled = false;
         document.getElementById('modalPassword').value = '';
@@ -408,10 +489,22 @@
         var language = document.getElementById('modalLanguage').value;
         var role = document.getElementById('modalRole').value;
         var errorDiv = document.getElementById('userModalError');
-        if (!username) { errorDiv.innerText = '请输入用户名'; errorDiv.style.display='block'; return; }
+        if (!username) { 
+            errorDiv.innerText = '请输入用户名'; 
+            errorDiv.style.display='block'; 
+            return; 
+        }
         var isEdit = document.getElementById('modalUsername').disabled;
-        if (!isEdit && userAccounts[username]) { errorDiv.innerText = '用户名已存在'; errorDiv.style.display='block'; return; }
-        if (!isEdit && !password) { errorDiv.innerText = '请输入密码'; errorDiv.style.display='block'; return; }
+        if (!isEdit && userAccounts[username]) { 
+            errorDiv.innerText = '用户名已存在'; 
+            errorDiv.style.display='block'; 
+            return; 
+        }
+        if (!isEdit && !password) { 
+            errorDiv.innerText = '请输入密码'; 
+            errorDiv.style.display='block'; 
+            return; 
+        }
         userAccounts[username] = {
             password: password,
             name: displayName || username,
@@ -425,7 +518,7 @@
         showToast('保存成功');
     }
 
-    // ====================== 检索函数 ======================
+    // 检索函数
     function getFilteredOrders() {
         var poSap = document.getElementById('searchPoSap').value.trim();
         if (!poSap) return orderData;
@@ -435,41 +528,62 @@
     function performOrderSearch() {
         var filtered = getFilteredOrders();
         var tbody = document.getElementById('orderBody');
-        if (filtered.length === 0) { tbody.innerHTML = '<tr><td colspan="' + (orderFields.length+1) + '">暂无数据<\/td><\/tr>'; return; }
+        if (filtered.length === 0) { 
+            tbody.innerHTML = '<tr><td colspan="11">暂无数据<\/td><\/tr>'; 
+            return; 
+        }
         var html = '';
         for (var i = 0; i < filtered.length; i++) {
             var row = filtered[i];
             html += '<tr>';
-            for (var j = 0; j < orderFields.length; j++) { var val = row[j] || ''; html += '<td>' + escapeHtml(val).substring(0,30) + '<\/td>'; }
+            for (var j = 0; j < orderFields.length; j++) { 
+                var val = row[j] || ''; 
+                html += '<td>' + escapeHtml(val).substring(0,30) + '<\/td>'; 
+            }
             html += '<td><span style="color:#94a3b8;">只读<\/span><\/td><\/tr>';
         }
         tbody.innerHTML = html;
     }
-    function resetOrderFilters() { document.getElementById('searchPoSap').value = ''; renderOrderTable(); }
+    
+    function resetOrderFilters() { 
+        document.getElementById('searchPoSap').value = ''; 
+        renderOrderTable(); 
+    }
 
     function getFilteredShipments() {
         var material = document.getElementById('searchMaterial').value.trim();
         if (!material) return shipmentData;
         return shipmentData.filter(function(row) { return row[5] && row[5].includes(material); });
     }
+    
     function performShipmentSearch() {
         var filtered = getFilteredShipments();
         var tbody = document.getElementById('shipmentBody');
-        if (filtered.length === 0) { tbody.innerHTML = '<tr><td colspan="' + (shipmentFields.length+1) + '">暂无数据<\/td><\/tr>'; return; }
+        if (filtered.length === 0) { 
+            tbody.innerHTML = '<tr><td colspan="11">暂无数据<\/td><\/tr>'; 
+            return; 
+        }
         var html = '';
         for (var i = 0; i < filtered.length; i++) {
             var row = filtered[i];
             html += '<tr>';
-            for (var j = 0; j < shipmentFields.length; j++) { var val = row[j] || ''; html += '<td>' + escapeHtml(val).substring(0,30) + '<\/td>'; }
+            for (var j = 0; j < shipmentFields.length; j++) { 
+                var val = row[j] || ''; 
+                html += '<td>' + escapeHtml(val).substring(0,30) + '<\/td>'; 
+            }
             html += '<td><span style="color:#94a3b8;">只读<\/span><\/td><\/tr>';
         }
         tbody.innerHTML = html;
     }
-    function resetShipmentFilters() { document.getElementById('searchMaterial').value = ''; renderShipmentTable(); }
+    
+    function resetShipmentFilters() { 
+        document.getElementById('searchMaterial').value = ''; 
+        renderShipmentTable(); 
+    }
 
-    // ====================== 导入导出函数 ======================
+    // 导入导出函数
     function quickUpdateOrder() { 
-        if (currentUser.role !== 'super_admin') { alert('权限不足，只有超级管理员可以导入'); return; }
+        if (!currentUser || currentUser.role !== 'super_admin') { alert('权限不足，只有超级管理员可以导入'); return; }
         var input = document.createElement('input'); 
         input.type='file'; 
         input.accept='.xlsx,.xls'; 
@@ -510,7 +624,7 @@
     }
     
     function quickUpdateShipment() { 
-        if (currentUser.role !== 'super_admin') { alert('权限不足，只有超级管理员可以导入'); return; }
+        if (!currentUser || currentUser.role !== 'super_admin') { alert('权限不足，只有超级管理员可以导入'); return; }
         var input = document.createElement('input'); 
         input.type='file'; 
         input.accept='.xlsx,.xls'; 
@@ -595,7 +709,7 @@
     }
     
     async function clearOrderData() { 
-        if (currentUser.role !== 'super_admin') { alert('权限不足，只有超级管理员可以清空'); return; }
+        if (!currentUser || currentUser.role !== 'super_admin') { alert('权限不足，只有超级管理员可以清空'); return; }
         if(confirm('清空所有订单数据？')) { 
             orderData=[]; 
             await apiSaveOrders(orderData); 
@@ -605,7 +719,7 @@
     }
     
     async function clearShipmentData() { 
-        if (currentUser.role !== 'super_admin') { alert('权限不足，只有超级管理员可以清空'); return; }
+        if (!currentUser || currentUser.role !== 'super_admin') { alert('权限不足，只有超级管理员可以清空'); return; }
         if(confirm('清空所有发运数据？')) { 
             shipmentData=[]; 
             await apiSaveShipments(shipmentData); 
@@ -614,36 +728,46 @@
         } 
     }
 
-    // ====================== 模块切换 ======================
+    // 模块切换
     function switchModule(moduleName) {
         var tabs = document.querySelectorAll('.module-tab');
         for (var i = 0; i < tabs.length; i++) {
-            if (tabs[i].getAttribute('data-module') === moduleName) tabs[i].classList.add('active');
-            else tabs[i].classList.remove('active');
+            if (tabs[i].getAttribute('data-module') === moduleName) {
+                tabs[i].classList.add('active');
+            } else {
+                tabs[i].classList.remove('active');
+            }
         }
-        document.getElementById('orderModule').classList.remove('active');
-        document.getElementById('shipmentModule').classList.remove('active');
-        document.getElementById('userModule').classList.remove('active');
+        var orderMod = document.getElementById('orderModule');
+        var shipMod = document.getElementById('shipmentModule');
+        var userMod = document.getElementById('userModule');
+        orderMod.classList.remove('active');
+        shipMod.classList.remove('active');
+        userMod.classList.remove('active');
+        
         if (moduleName === 'order') { 
-            document.getElementById('orderModule').classList.add('active'); 
+            orderMod.classList.add('active'); 
             renderOrderHeader(); 
             renderOrderTable(); 
         } else if (moduleName === 'shipment') { 
-            document.getElementById('shipmentModule').classList.add('active'); 
+            shipMod.classList.add('active'); 
             renderShipmentHeader(); 
             renderShipmentTable(); 
         } else if (moduleName === 'user') { 
-            document.getElementById('userModule').classList.add('active'); 
+            userMod.classList.add('active'); 
             renderUserTable(); 
         }
     }
 
-    // ====================== 权限控制 ======================
+    // 权限控制
     function applyUIPermissions() {
         var isSuperAdmin = currentUser && currentUser.role === 'super_admin';
         var userTab = document.getElementById('userModuleTab');
-        if (isSuperAdmin) userTab.style.display = 'inline-block';
-        else userTab.style.display = 'none';
+        if (isSuperAdmin) {
+            userTab.style.display = 'inline-block';
+        } else {
+            userTab.style.display = 'none';
+        }
         
         document.getElementById('userName').innerText = currentUser.name || currentUser.username;
         var roleSpan = document.getElementById('userRole');
@@ -659,7 +783,7 @@
         }
     }
 
-    // ====================== 登录/登出 ======================
+    // 登录登出
     async function login() {
         var username = document.getElementById('loginUsername').value.trim();
         var password = document.getElementById('loginPassword').value;
@@ -721,12 +845,14 @@
                     renderUserTable();
                     return;
                 }
-            } catch(e) { console.error(e); }
+            } catch(e) { 
+                console.error(e); 
+            }
         }
         document.getElementById('loginPage').classList.remove('hidden');
     }
 
-    // ====================== 事件绑定 ======================
+    // 事件绑定
     document.getElementById('loginBtn').onclick = login;
     document.getElementById('logoutBtn').onclick = logout;
     document.getElementById('loginPassword').onkeypress = function(e) { if(e.key === 'Enter') login(); };
@@ -750,11 +876,13 @@
 
     var tabs = document.querySelectorAll('.module-tab');
     for (var i = 0; i < tabs.length; i++) { 
-        tabs[i].onclick = function() { switchModule(this.getAttribute('data-module')); }; 
+        tabs[i].onclick = function() { 
+            switchModule(this.getAttribute('data-module')); 
+        }; 
     }
 
     // 初始化
     checkSavedLogin();
-<\/script>
+</script>
 </body>
 </html>
