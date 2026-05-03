@@ -891,6 +891,7 @@
     }
 
     async function login() {
+        userAccounts = await loadUserAccounts();
         var username = document.getElementById('loginUsername').value.trim();
         var password = document.getElementById('loginPassword').value;
         var errorDiv = document.getElementById('loginError');
@@ -921,11 +922,28 @@
         document.getElementById('loginError').style.display = 'none';
     }
 
-    async function checkSavedLogin() {
-        var saved = sessionStorage.getItem('currentUser');
-        if (saved) { try { var u = JSON.parse(saved); if (userAccounts[u.username]) { currentUser = u; currentLang = currentUser.language === 'pt' ? 'pt' : 'zh'; orderData = await loadOrderData(); shipmentData = await loadShipmentData(); document.getElementById('loginPage').classList.add('hidden'); document.getElementById('mainContent').classList.add('visible'); applyLanguage(); applyUIPermissions(); setTimeout(extractOptions, 500); return; } } catch(e) {} }
-        document.getElementById('loginPage').classList.remove('hidden');
+   async function checkSavedLogin() {
+    userAccounts = await loadUserAccounts();
+    var saved = sessionStorage.getItem('currentUser');
+    if (saved) { 
+        try { 
+            var u = JSON.parse(saved); 
+            if (userAccounts[u.username]) { 
+                currentUser = u; 
+                currentLang = currentUser.language === 'pt' ? 'pt' : 'zh'; 
+                orderData = await loadOrderData(); 
+                shipmentData = await loadShipmentData(); 
+                document.getElementById('loginPage').classList.add('hidden'); 
+                document.getElementById('mainContent').classList.add('visible'); 
+                applyLanguage(); 
+                applyUIPermissions(); 
+                setTimeout(extractOptions, 500);
+                return; 
+            } 
+        } catch(e) {} 
     }
+    document.getElementById('loginPage').classList.remove('hidden');
+}
 
     function extractOptions() {
         var suppliers = [], warehouses = [], depts = [];
