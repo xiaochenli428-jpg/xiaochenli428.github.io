@@ -399,9 +399,27 @@
 
     function saveUserAccounts() { localStorage.setItem('userAccounts', JSON.stringify(userAccounts)); }
 
-    function loadOrderData() { var saved = localStorage.getItem('orderData'); if (saved) { try { return JSON.parse(saved); } catch(e) { return getDefaultOrderData(); } } return getDefaultOrderData(); }
+    function loadOrderData() { 
+    var saved = localStorage.getItem('orderData'); 
+    if (saved && saved !== '[]') { 
+        try { 
+            var parsed = JSON.parse(saved);
+            if (parsed && parsed.length > 0) return parsed;
+        } catch(e) { } 
+    } 
+    return getDefaultOrderData(); 
+}
     function getDefaultOrderData() { return [["1", "RC00010", "RC00010", "OK", "", "", "Mineração", "PMS", "2008", "补库", "Mineração", "XGCG2024041809862683", "XGCG2024041809862683", "XGBP2024040209751768", "徐工筑路", "2070", "海运", "GR3505", "382101379", "382101379", "382101379", "580.9", "580.9", "580.9", "0", "0", "0", "GR3505右后玻璃", "VIDRO TEMPERADO", "70071100", "1", "1", "0", "0", "0", "2024-04-18", "2024-04-18", "筑路", "——", "1", "0", "0", "1", "——", "2024-07-12", "2024-09-06", "SJ240398"]]; }
-    function loadShipmentData() { var saved = localStorage.getItem('shipmentData'); if (saved) { try { return JSON.parse(saved); } catch(e) { return getDefaultShipmentData(); } } return getDefaultShipmentData(); }
+    function loadShipmentData() { 
+    var saved = localStorage.getItem('shipmentData'); 
+    if (saved && saved !== '[]') { 
+        try { 
+            var parsed = JSON.parse(saved);
+            if (parsed && parsed.length > 0) return parsed;
+        } catch(e) { } 
+    } 
+    return getDefaultShipmentData(); 
+}
     function getDefaultShipmentData() { return [["XGBZ2401-06", "WUH51386112A", "2024-01-15", "2024-01-15", "2024-01-18", "——", "汽车备件", "XG90H", "459303664", "459303664", "贯通轴2", "EIXO DE SAIDA", "1", "84839000", "", "", "4", "6", "4", "6", "41", "XGCG2023121209132789", "SJ240004", "Mineração", "", "2024-02-07"]]; }
     function saveOrderData() { localStorage.setItem('orderData', JSON.stringify(orderData)); }
     function saveShipmentData() { localStorage.setItem('shipmentData', JSON.stringify(shipmentData)); }
@@ -878,6 +896,14 @@
 
     checkSavedLogin();
     setTimeout(extractOptions, 500);
+    // 确保数据正确加载
+console.log('加载的订单数据条数:', orderData.length);
+if (orderData.length === 0 && localStorage.getItem('orderData')) {
+    orderData = JSON.parse(localStorage.getItem('orderData'));
+}
+    // 在 showToast 之后添加
+renderOrderHeader();
+renderOrderTable(orderData, false);
 </script>
 </body>
 </html>
